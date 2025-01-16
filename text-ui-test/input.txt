@@ -18,6 +18,8 @@ event project meeting /to 4pm /from Mon 2pm
 event /to 4pm /from Mon 2pm
 event project meeting 2 /fromtest/to 4pm
 list
+testing unknown command
+list
 mark 0
 mark 1
 mark 2

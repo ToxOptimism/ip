@@ -17,22 +17,9 @@ public class Aurora {
         System.out.println("=======================");
     }
 
-    public static void printException(Exception e) {
-        printMsg(e.getMessage());
-    }
-
     public static void addToList(Task t) {
         taskList.add(t);
         printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
-    }
-
-    public static void addTask(String[] argsList) {
-        if (argsList.length < 1) {
-            return;
-        }
-
-        Task t = new Task(argsList[0]);
-        addToList(t);
     }
 
     public static void addToDo(String[] argsList) throws AuroraException {
@@ -200,7 +187,7 @@ public class Aurora {
                         addEvent(argsList);
                         break;
                     default:
-                        addTask(argsList);
+                        throw new AuroraException("Unknown command: " + command);
                 }
             } catch (AuroraException e) {
                 printMsg(e.getMessage());
