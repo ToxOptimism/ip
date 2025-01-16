@@ -7,6 +7,7 @@ public class Aurora {
     private static final String GOODBYE = "Bye. Hope to see you again soon!";
     private static final String MARK = "This task has been marked as done:";
     private static final String UNMARK = "This task has been marked as not done:";
+    private static final String ADD_TASK = "I've added this task: ";
 
     private static ArrayList<Task> taskList = new ArrayList<>();
 
@@ -18,7 +19,7 @@ public class Aurora {
 
     public static void addToList(Task t) {
         taskList.add(t);
-        printMsg("added: " + t.getDescription());
+        printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
     }
 
     public static void addTask(String[] argsList) {
