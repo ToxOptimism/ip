@@ -35,10 +35,40 @@ I've added this task:
 Now you have 4 tasks in the list!
 =======================
 =======================
+Missing argument: "From" in "/from From".
+Usage: "event Description /from From /to To"
+=======================
+=======================
+Missing argument: "From" in "/from From".
+Usage: "event Description /from From /to To"
+=======================
+=======================
+Missing argument: "To" in "/to To".
+Usage: "event Description /from From /to To"
+=======================
+=======================
+Missing argument: "Description".
+Usage: "event Description /from From /to To"
+=======================
+=======================
+Invalid format: "/from From" must be before "/to To".
+Usage: "event Description /from From /to To"
+=======================
+=======================
+Missing argument: "Description".
+Usage: "event Description /from From /to To"
+=======================
+=======================
+I've added this task:
+[E][ ] project meeting 2 (from: test to: 4pm)
+Now you have 5 tasks in the list!
+=======================
+=======================
 1. [ ] newTask
 1. [T][ ] borrow book
 1. [D][ ] return book (by: Sunday)
 1. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+1. [E][ ] project meeting 2 (from: test to: 4pm)
 =======================
 =======================
 This task has been marked as done:
@@ -53,6 +83,7 @@ This task has been marked as done:
 1. [T][X] borrow book
 1. [D][ ] return book (by: Sunday)
 1. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+1. [E][ ] project meeting 2 (from: test to: 4pm)
 =======================
 =======================
 This task has been marked as not done:
@@ -67,6 +98,7 @@ This task has been marked as not done:
 1. [T][ ] borrow book
 1. [D][ ] return book (by: Sunday)
 1. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+1. [E][ ] project meeting 2 (from: test to: 4pm)
 =======================
 =======================
 Bye. Hope to see you again soon!
