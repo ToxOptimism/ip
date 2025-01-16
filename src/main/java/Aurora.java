@@ -16,10 +16,62 @@ public class Aurora {
         System.out.println("=======================");
     }
 
-    public static void addList(String taskDescription) {
-        Task t = new Task(taskDescription);
+    public static void addToList(Task t) {
         taskList.add(t);
-        printMsg("added: " + taskDescription);
+        printMsg("added: " + t.getDescription());
+    }
+
+    public static void addTask(String[] argsList) {
+        if (argsList.length < 1) {
+            return;
+        }
+
+        Task t = new Task(argsList[0]);
+        addToList(t);
+    }
+
+    public static void addToDo(String[] argsList) {
+        if (argsList.length < 2) {
+            return;
+        }
+        ToDo td = new ToDo(argsList[1]);
+        addToList(td);
+    }
+
+    public static void addDeadline(String[] argsList) {
+        if (argsList.length < 2) {
+            return;
+        }
+
+        String info = argsList[1];
+        int byDateStart = info.indexOf("/by");
+
+        if (byDateStart == -1) {
+            return;
+        }
+
+        Deadline d = new Deadline(info.substring(0, byDateStart).trim(),
+                info.substring(byDateStart + 3).trim());
+        addToList(d);
+    }
+
+    public static void addEvent(String[] argsList) {
+        if (argsList.length < 2) {
+            return;
+        }
+
+        String info = argsList[1];
+        int fromDateStart = info.indexOf("/from");
+        int toDateStart = info.indexOf("/to");
+
+        if (toDateStart == -1 || fromDateStart == -1 || fromDateStart > toDateStart) {
+            return;
+        }
+
+        Event e = new Event(info.substring(0, fromDateStart).trim(),
+                info.substring(fromDateStart + 5, toDateStart).trim(),
+                info.substring(toDateStart + 3).trim());
+        addToList(e);
     }
 
     public static void markTaskDone(int index) {
@@ -64,8 +116,8 @@ public class Aurora {
 
         // Chatbot
         while (!end) {
-            String command = sc.nextLine();
-            String[] argsList = command.split(" ");
+            String command = sc.nextLine().trim();
+            String[] argsList = command.split(" ", 2);
 
             switch (argsList[0]) {
                 case "bye":
@@ -80,8 +132,17 @@ public class Aurora {
                 case "unmark":
                     unmarkTaskDone(Integer.parseInt(argsList[1]));
                     break;
+                case "todo":
+                    addToDo(argsList);
+                    break;
+                case "deadline":
+                    addDeadline(argsList);
+                    break;
+                case "event":
+                    addEvent(argsList);
+                    break;
                 default:
-                    addList(command);
+                    addTask(argsList);
             }
         }
 
