@@ -5,7 +5,10 @@ public class Aurora {
 
     private static final String GREETING = "Hello! I'm Aurora.\nWhat can I do for you?";
     private static final String GOODBYE = "Bye. Hope to see you again soon!";
-    private static ArrayList<String> taskList = new ArrayList<>();
+    private static final String MARK = "This task has been marked as done:";
+    private static final String UNMARK = "This task has been marked as not done:";
+
+    private static ArrayList<Task> taskList = new ArrayList<>();
 
     public static void printMsg(String msg) {
         System.out.println("=======================");
@@ -13,16 +16,39 @@ public class Aurora {
         System.out.println("=======================");
     }
 
-    public static void addList(String task) {
-        taskList.add(task);
-        printMsg("added: " + task);
+    public static void addList(String taskDescription) {
+        Task t = new Task(taskDescription);
+        taskList.add(t);
+        printMsg("added: " + taskDescription);
+    }
+
+    public static void markTaskDone(int index) {
+        if (index < 1 || index > taskList.size()) {
+            return;
+        }
+
+        Task t = taskList.get(index - 1);
+        t.markAsDone();
+
+        printMsg(MARK + "\n" + t);
+    }
+
+    public static void unmarkTaskDone(int index) {
+        if (index < 1 || index > taskList.size()) {
+            return;
+        }
+
+        Task t = taskList.get(index - 1);
+        t.unmarkAsDone();
+
+        printMsg(UNMARK + "\n" + t);
     }
 
     public static void displayList() {
         int index = 1;
 
         System.out.println("=======================");
-        for (String task : taskList) {
+        for (Task task : taskList) {
             System.out.println(index + ". " + task);
         }
         System.out.println("=======================");
@@ -47,6 +73,12 @@ public class Aurora {
                     break;
                 case "list":
                     displayList();
+                    break;
+                case "mark":
+                    markTaskDone(Integer.parseInt(argsList[1]));
+                    break;
+                case "unmark":
+                    unmarkTaskDone(Integer.parseInt(argsList[1]));
                     break;
                 default:
                     addList(command);
