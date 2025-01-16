@@ -18,10 +18,12 @@ event project meeting /to 4pm /from Mon 2pm
 event /to 4pm /from Mon 2pm
 event project meeting 2 /fromtest/to 4pm
 list
+mark 0
 mark 1
 mark 2
 list
 unmark 2
 unmark 3
+unmark 8
 list
 bye

@@ -127,10 +127,16 @@ public class Aurora {
         addToList(e);
     }
 
-    public static void markTaskDone(int index) {
-        if (index < 1 || index > taskList.size()) {
-            return;
+    public static void checkWithinTaskList(int index, int lower, int upper) throws AuroraException {
+        if (lower > upper) {
+            throw new AuroraException("Task List is empty. Unable to run command.");
+        } else if (index < lower || index > upper) {
+            throw new AuroraException("Argument provided \"" + index + "\" must be between bounds of " + lower + " and " + upper + ".");
         }
+    }
+
+    public static void markTaskDone(int index) throws AuroraException {
+        checkWithinTaskList(index, 1, taskList.size()); // throws an exception
 
         Task t = taskList.get(index - 1);
         t.markAsDone();
@@ -138,10 +144,8 @@ public class Aurora {
         printMsg(MARK + "\n" + t);
     }
 
-    public static void unmarkTaskDone(int index) {
-        if (index < 1 || index > taskList.size()) {
-            return;
-        }
+    public static void unmarkTaskDone(int index) throws AuroraException{
+        checkWithinTaskList(index, 1, taskList.size()); // throws an exception
 
         Task t = taskList.get(index - 1);
         t.unmarkAsDone();
@@ -155,6 +159,7 @@ public class Aurora {
         System.out.println("=======================");
         for (Task task : taskList) {
             System.out.println(index + ". " + task);
+            index += 1;
         }
         System.out.println("=======================");
     }

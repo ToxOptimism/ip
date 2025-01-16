@@ -21,7 +21,7 @@ Usage: "todo Description"
 =======================
 =======================
 1. [ ] newTask
-1. [T][ ] borrow book
+2. [T][ ] borrow book
 =======================
 =======================
 I've added this task:
@@ -47,9 +47,9 @@ Now you have 4 tasks in the list!
 =======================
 =======================
 1. [ ] newTask
-1. [T][ ] borrow book
-1. [D][ ] return book (by: Sunday)
-1. [D][ ] return book 2 (by: Sunday)
+2. [T][ ] borrow book
+3. [D][ ] return book (by: Sunday)
+4. [D][ ] return book 2 (by: Sunday)
 =======================
 =======================
 I've added this task:
@@ -87,11 +87,14 @@ Now you have 6 tasks in the list!
 =======================
 =======================
 1. [ ] newTask
-1. [T][ ] borrow book
-1. [D][ ] return book (by: Sunday)
-1. [D][ ] return book 2 (by: Sunday)
-1. [E][ ] project meeting (from: Mon 2pm to: 4pm)
-1. [E][ ] project meeting 2 (from: test to: 4pm)
+2. [T][ ] borrow book
+3. [D][ ] return book (by: Sunday)
+4. [D][ ] return book 2 (by: Sunday)
+5. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+6. [E][ ] project meeting 2 (from: test to: 4pm)
+=======================
+=======================
+Argument provided "0" must be between bounds of 1 and 6.
 =======================
 =======================
 This task has been marked as done:
@@ -103,11 +106,11 @@ This task has been marked as done:
 =======================
 =======================
 1. [X] newTask
-1. [T][X] borrow book
-1. [D][ ] return book (by: Sunday)
-1. [D][ ] return book 2 (by: Sunday)
-1. [E][ ] project meeting (from: Mon 2pm to: 4pm)
-1. [E][ ] project meeting 2 (from: test to: 4pm)
+2. [T][X] borrow book
+3. [D][ ] return book (by: Sunday)
+4. [D][ ] return book 2 (by: Sunday)
+5. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+6. [E][ ] project meeting 2 (from: test to: 4pm)
 =======================
 =======================
 This task has been marked as not done:
@@ -118,12 +121,15 @@ This task has been marked as not done:
 [D][ ] return book (by: Sunday)
 =======================
 =======================
+Argument provided "8" must be between bounds of 1 and 6.
+=======================
+=======================
 1. [X] newTask
-1. [T][ ] borrow book
-1. [D][ ] return book (by: Sunday)
-1. [D][ ] return book 2 (by: Sunday)
-1. [E][ ] project meeting (from: Mon 2pm to: 4pm)
-1. [E][ ] project meeting 2 (from: test to: 4pm)
+2. [T][ ] borrow book
+3. [D][ ] return book (by: Sunday)
+4. [D][ ] return book 2 (by: Sunday)
+5. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+6. [E][ ] project meeting 2 (from: test to: 4pm)
 =======================
 =======================
 Bye. Hope to see you again soon!
