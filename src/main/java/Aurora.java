@@ -43,19 +43,32 @@ public class Aurora {
         addToList(td);
     }
 
-    public static void addDeadline(String[] argsList) {
+    public static void addDeadline(String[] argsList) throws AuroraException{
+        // If no arguments provided
         if (argsList.length < 2) {
-            return;
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\" ");
         }
 
         String info = argsList[1];
+        String beforeBy = info.split("/by")[0].trim();
+
         int byDateStart = info.indexOf("/by");
 
-        if (byDateStart == -1) {
-            return;
+        // If there is no description provided
+        if (info.trim().isEmpty() || beforeBy.isEmpty()) {
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\" ");
         }
 
-        Deadline d = new Deadline(info.substring(0, byDateStart).trim(),
+        // If there is no /by
+        if (byDateStart == -1) {
+            throw new AuroraException("Missing argument: \"/by By\".\nUsage: \"deadline Description /by By\" ");
+
+        // If there is no details after /to
+        } else if (byDateStart + 3 == info.length()) {
+            throw new AuroraException("Missing argument: \"By\" in \"/by By\".\nUsage: \"deadline Description /by By\" ");
+        }
+
+        Deadline d = new Deadline(beforeBy,
                 info.substring(byDateStart + 3).trim());
         addToList(d);
     }
