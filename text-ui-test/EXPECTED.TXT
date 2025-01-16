@@ -16,6 +16,10 @@ I've added this task:
 Now you have 2 tasks in the list!
 =======================
 =======================
+Missing argument: "Description".
+Usage: "todo Description"
+=======================
+=======================
 1. [ ] newTask
 1. [T][ ] borrow book
 =======================

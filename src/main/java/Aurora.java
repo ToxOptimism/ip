@@ -35,10 +35,19 @@ public class Aurora {
         addToList(t);
     }
 
-    public static void addToDo(String[] argsList) {
+    public static void addToDo(String[] argsList) throws AuroraException {
+        // If no arguments provided
         if (argsList.length < 2) {
-            return;
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"todo Description\" ");
         }
+
+        String info = argsList[1];
+
+        // If there is no description provided
+        if (info.trim().isEmpty()) {
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"todo Description\" ");
+        }
+
         ToDo td = new ToDo(argsList[1]);
         addToList(td);
     }

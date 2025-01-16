@@ -1,6 +1,7 @@
 newTask
 list
 todo borrow book
+todo
 list
 deadline return book /by Sunday
 deadline     /by Sunday
