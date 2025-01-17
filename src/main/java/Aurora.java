@@ -46,9 +46,21 @@ public class Aurora {
         }
 
         String info = argsList[1];
-        String beforeBy = info.split("/by")[0].trim();
 
-        int byDateStart = info.indexOf("/by");
+        int byDateStart = -1;
+        String beforeBy = info;
+
+        // Account for different combinations of /by usage
+        if (info.contains("/by ")) {
+            byDateStart = info.indexOf("/by ");
+            beforeBy = info.split("/by " )[0].trim();
+        } else if (info.contains("/by\n")) {
+            byDateStart = info.indexOf("/by\n");
+            beforeBy = info.split("/by\n" )[0].trim();
+        } else if (info.endsWith("/by")) {
+            byDateStart = info.length() - 3;
+            beforeBy = info.substring(0, info.length() - 3).trim();
+        }
 
         // If there is no description provided
         if (info.trim().isEmpty() || beforeBy.isEmpty()) {
@@ -76,11 +88,36 @@ public class Aurora {
         }
 
         String info = argsList[1];
-        String beforeFrom = info.split("/from")[0].trim();
-        String beforeTo = info.split("/to")[0].trim();
 
-        int fromDateStart = info.indexOf("/from");
-        int toDateStart = info.indexOf("/to");
+        int fromDateStart = -1;
+        String beforeFrom = info;
+
+        // Account for different combinations of /from usage
+        if (info.contains("/from ")) {
+            fromDateStart = info.indexOf("/from ");
+            beforeFrom = info.split("/from " )[0].trim();
+        } else if (info.contains("/from\n")) {
+            fromDateStart = info.indexOf("/from\n");
+            beforeFrom = info.split("/from\n" )[0].trim();
+        } else if (info.endsWith("/from")) {
+            fromDateStart = info.length() - 5;
+            beforeFrom = info.substring(0, info.length() - 5).trim();
+        }
+
+        int toDateStart = -1;
+        String beforeTo = info;
+
+        // Account for different combinations of /to usage
+        if (info.contains("/to ")) {
+            toDateStart = info.indexOf("/to ");
+            beforeTo = info.split("/to " )[0].trim();
+        } else if (info.contains("/to\n")) {
+            toDateStart = info.indexOf("/to\n");
+            beforeTo = info.split("/to\n" )[0].trim();
+        } else if (info.endsWith("/to")) {
+            toDateStart = info.length() - 3;
+            beforeTo = info.substring(0, info.length() - 3).trim();
+        }
 
         // If there is no description provided
         if (info.trim().isEmpty() || beforeFrom.isEmpty() || beforeTo.isEmpty()) {

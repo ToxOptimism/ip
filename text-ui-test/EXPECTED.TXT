@@ -37,26 +37,24 @@ Missing argument: "/by By".
 Usage: "deadline Description /by By"
 =======================
 =======================
-I've added this task:
-[D][ ] return book 2 (by: Sunday)
-Now you have 3 tasks in the list!
+Missing argument: "/by By".
+Usage: "deadline Description /by By"
 =======================
 =======================
 1. [T][ ] borrow book
 2. [D][ ] return book (by: Sunday)
-3. [D][ ] return book 2 (by: Sunday)
 =======================
 =======================
 I've added this task:
 [E][ ] project meeting (from: Mon 2pm to: 4pm)
-Now you have 4 tasks in the list!
+Now you have 3 tasks in the list!
 =======================
 =======================
 Missing argument: "From" in "/from From".
 Usage: "event Description /from From /to To"
 =======================
 =======================
-Missing argument: "From" in "/from From".
+Missing argument: "/from From".
 Usage: "event Description /from From /to To"
 =======================
 =======================
@@ -76,16 +74,13 @@ Missing argument: "Description".
 Usage: "event Description /from From /to To"
 =======================
 =======================
-I've added this task:
-[E][ ] project meeting 2 (from: test to: 4pm)
-Now you have 5 tasks in the list!
+Missing argument: "/from From".
+Usage: "event Description /from From /to To"
 =======================
 =======================
 1. [T][ ] borrow book
 2. [D][ ] return book (by: Sunday)
-3. [D][ ] return book 2 (by: Sunday)
-4. [E][ ] project meeting (from: Mon 2pm to: 4pm)
-5. [E][ ] project meeting 2 (from: test to: 4pm)
+3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
 Unknown command: testing unknown command
@@ -93,12 +88,10 @@ Unknown command: testing unknown command
 =======================
 1. [T][ ] borrow book
 2. [D][ ] return book (by: Sunday)
-3. [D][ ] return book 2 (by: Sunday)
-4. [E][ ] project meeting (from: Mon 2pm to: 4pm)
-5. [E][ ] project meeting 2 (from: test to: 4pm)
+3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
-Argument provided "0" must be between bounds of 1 and 5.
+Argument provided "0" must be between bounds of 1 and 3.
 =======================
 =======================
 This task has been marked as done:
@@ -111,9 +104,7 @@ This task has been marked as done:
 =======================
 1. [T][X] borrow book
 2. [D][X] return book (by: Sunday)
-3. [D][ ] return book 2 (by: Sunday)
-4. [E][ ] project meeting (from: Mon 2pm to: 4pm)
-5. [E][ ] project meeting 2 (from: test to: 4pm)
+3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
 This task has been marked as not done:
@@ -121,17 +112,15 @@ This task has been marked as not done:
 =======================
 =======================
 This task has been marked as not done:
-[D][ ] return book 2 (by: Sunday)
+[E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
-Argument provided "8" must be between bounds of 1 and 5.
+Argument provided "8" must be between bounds of 1 and 3.
 =======================
 =======================
 1. [T][X] borrow book
 2. [D][ ] return book (by: Sunday)
-3. [D][ ] return book 2 (by: Sunday)
-4. [E][ ] project meeting (from: Mon 2pm to: 4pm)
-5. [E][ ] project meeting 2 (from: test to: 4pm)
+3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
 Bye. Hope to see you again soon!
