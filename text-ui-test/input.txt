@@ -20,12 +20,18 @@ event project meeting 2 /fromtest/to 4pm
 list
 testing unknown command
 list
+mark a
 mark 0
 mark 1
 mark 2
 list
+unmark a
 unmark 2
 unmark 3
 unmark 8
+list
+delete 8
+delete a
+delete 1
 list
 bye

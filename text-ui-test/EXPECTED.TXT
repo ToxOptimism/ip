@@ -91,6 +91,10 @@ Unknown command: testing unknown command
 3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
+Invalid arguments: index must be a valid integer value.
+Usage: "mark Index"
+=======================
+=======================
 Argument provided "0" must be between bounds of 1 and 3.
 =======================
 =======================
@@ -107,6 +111,10 @@ This task has been marked as done:
 3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
+Invalid arguments: Index must be a valid integer value.
+Usage: "unmark Index"
+=======================
+=======================
 This task has been marked as not done:
 [D][ ] return book (by: Sunday)
 =======================
@@ -121,6 +129,22 @@ Argument provided "8" must be between bounds of 1 and 3.
 1. [T][X] borrow book
 2. [D][ ] return book (by: Sunday)
 3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+=======================
+=======================
+Argument provided "8" must be between bounds of 1 and 3.
+=======================
+=======================
+Invalid arguments: index must be a valid integer value.
+Usage: "delete Index"
+=======================
+=======================
+I've removed this task:
+[T][X] borrow book
+Now you have 2 tasks in the list!
+=======================
+=======================
+1. [D][ ] return book (by: Sunday)
+2. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 =======================
 =======================
 Bye. Hope to see you again soon!

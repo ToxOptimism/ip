@@ -7,7 +7,8 @@ public class Aurora {
     private static final String GOODBYE = "Bye. Hope to see you again soon!";
     private static final String MARK = "This task has been marked as done:";
     private static final String UNMARK = "This task has been marked as not done:";
-    private static final String ADD_TASK = "I've added this task: ";
+    private static final String ADD_TASK = "I've added this task:";
+    private static final String DELETE_TASK = "I've removed this task:";
 
     private static ArrayList<Task> taskList = new ArrayList<>();
 
@@ -25,14 +26,14 @@ public class Aurora {
     public static void addToDo(String[] argsList) throws AuroraException {
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"todo Description\" ");
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"todo Description\"");
         }
 
         String info = argsList[1];
 
         // If there is no description provided
         if (info.trim().isEmpty()) {
-            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"todo Description\" ");
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"todo Description\"");
         }
 
         ToDo td = new ToDo(argsList[1]);
@@ -42,7 +43,7 @@ public class Aurora {
     public static void addDeadline(String[] argsList) throws AuroraException{
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\" ");
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\"");
         }
 
         String info = argsList[1];
@@ -64,16 +65,16 @@ public class Aurora {
 
         // If there is no description provided
         if (info.trim().isEmpty() || beforeBy.isEmpty()) {
-            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\" ");
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\"");
         }
 
         // If there is no /by
         if (byDateStart == -1) {
-            throw new AuroraException("Missing argument: \"/by By\".\nUsage: \"deadline Description /by By\" ");
+            throw new AuroraException("Missing argument: \"/by By\".\nUsage: \"deadline Description /by By\"");
 
         // If there is no details after /to
         } else if (byDateStart + 3 == info.length()) {
-            throw new AuroraException("Missing argument: \"By\" in \"/by By\".\nUsage: \"deadline Description /by By\" ");
+            throw new AuroraException("Missing argument: \"By\" in \"/by By\".\nUsage: \"deadline Description /by By\"");
         }
 
         Deadline d = new Deadline(beforeBy,
@@ -84,7 +85,7 @@ public class Aurora {
     public static void addEvent(String[] argsList) throws AuroraException {
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"event Description /from From /to To\" ");
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"event Description /from From /to To\"");
         }
 
         String info = argsList[1];
@@ -121,28 +122,28 @@ public class Aurora {
 
         // If there is no description provided
         if (info.trim().isEmpty() || beforeFrom.isEmpty() || beforeTo.isEmpty()) {
-            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"event Description /from From /to To\" ");
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"event Description /from From /to To\"");
         }
 
         // If there is no /from
         if (fromDateStart == -1) {
-            throw new AuroraException("Missing argument: \"/from From\".\nUsage: \"event Description /from From /to To\" ");
+            throw new AuroraException("Missing argument: \"/from From\".\nUsage: \"event Description /from From /to To\"");
 
         // If there is no /to
         } else if (toDateStart == -1) {
-            throw new AuroraException("Missing argument: \"/to To\".\nUsage: \"event Description /from From /to To\" ");
+            throw new AuroraException("Missing argument: \"/to To\".\nUsage: \"event Description /from From /to To\"");
 
         // If format is in wrong order
         } else if (fromDateStart > toDateStart) {
-            throw new AuroraException("Invalid format: \"/from From\" must be before \"/to To\".\nUsage: \"event Description /from From /to To\" ");
+            throw new AuroraException("Invalid format: \"/from From\" must be before \"/to To\".\nUsage: \"event Description /from From /to To\"");
 
         // If there is no details after /from
         } else if (fromDateStart + 5 == beforeTo.length()) {
-            throw new AuroraException("Missing argument: \"From\" in \"/from From\".\nUsage: \"event Description /from From /to To\" ");
+            throw new AuroraException("Missing argument: \"From\" in \"/from From\".\nUsage: \"event Description /from From /to To\"");
 
         // If there is no details after /to
         } else if (toDateStart + 3 == info.length()) {
-            throw new AuroraException("Missing argument: \"To\" in \"/to To\".\nUsage: \"event Description /from From /to To\" ");
+            throw new AuroraException("Missing argument: \"To\" in \"/to To\".\nUsage: \"event Description /from From /to To\"");
         }
 
         Event e = new Event(info.substring(0, fromDateStart).trim(),
@@ -159,7 +160,26 @@ public class Aurora {
         }
     }
 
-    public static void markTaskDone(int index) throws AuroraException {
+    public static boolean canParseInt(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static void markTaskDone(String[] argsList) throws AuroraException {
+        // If no arguments provided
+        if (argsList.length < 2) {
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"mark Index\"");
+
+        // Argument provided is not an integer
+        } else if (!canParseInt(argsList[1])) {
+            throw new AuroraException("Invalid arguments: index must be a valid integer value.\nUsage: \"mark Index\"");
+        }
+
+        int index = Integer.parseInt(argsList[1]);
         checkWithinTaskList(index, 1, taskList.size()); // throws an exception
 
         Task t = taskList.get(index - 1);
@@ -168,13 +188,41 @@ public class Aurora {
         printMsg(MARK + "\n" + t);
     }
 
-    public static void unmarkTaskDone(int index) throws AuroraException{
+    public static void unmarkTaskDone(String[] argsList) throws AuroraException{
+        // If no arguments provided
+        if (argsList.length < 2) {
+            throw new AuroraException("Missing argument: Index must be a valid integer value.\nUsage: \"unmark Index\"");
+
+        // Argument provided is not an integer
+        } else if (!canParseInt(argsList[1])) {
+            throw new AuroraException("Invalid arguments: Index must be a valid integer value.\nUsage: \"unmark Index\"");
+        }
+
+        int index = Integer.parseInt(argsList[1]);
         checkWithinTaskList(index, 1, taskList.size()); // throws an exception
 
         Task t = taskList.get(index - 1);
         t.unmarkAsDone();
 
         printMsg(UNMARK + "\n" + t);
+    }
+
+    public static void delete(String[] argsList) throws AuroraException{
+        // If no arguments provided
+        if (argsList.length < 2) {
+            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"delete Index\"");
+
+        // Argument provided is not an integer
+        } else if (!canParseInt(argsList[1])) {
+            throw new AuroraException("Invalid arguments: index must be a valid integer value.\nUsage: \"delete Index\"");
+        }
+
+        int index = Integer.parseInt(argsList[1]);
+        checkWithinTaskList(index, 1, taskList.size()); // throws an exception
+
+        Task t = taskList.remove(index - 1);
+
+        printMsg(DELETE_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
     }
 
     public static void displayList() {
@@ -209,10 +257,10 @@ public class Aurora {
                         displayList();
                         break;
                     case "mark":
-                        markTaskDone(Integer.parseInt(argsList[1]));
+                        markTaskDone(argsList);
                         break;
                     case "unmark":
-                        unmarkTaskDone(Integer.parseInt(argsList[1]));
+                        unmarkTaskDone(argsList);
                         break;
                     case "todo":
                         addToDo(argsList);
@@ -222,6 +270,9 @@ public class Aurora {
                         break;
                     case "event":
                         addEvent(argsList);
+                        break;
+                    case "delete":
+                        delete(argsList);
                         break;
                     default:
                         throw new AuroraException("Unknown command: " + command);
