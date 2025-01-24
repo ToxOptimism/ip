@@ -38,13 +38,17 @@ public class Aurora {
     }
 
     public static void loadTaskList(Path taskListPath) throws AuroraException {
+        List<String> lines = null;
         try {
-            List<String> lines = Files.readAllLines(taskListPath);
-            for (String line : lines) {
-                String[] parts = line.split(" \\| ");
-                Task t = null;
-                // Assumption: data has not been maliciously manipulated
-                switch (parts[0]) {
+            lines = Files.readAllLines(taskListPath);
+        } catch (IOException e) {
+            throw new AuroraException("File could not be read.");
+        }
+        for (String line : lines) {
+            String[] parts = line.split(" \\| ");
+            Task t = null;
+            // Assumption: data has not been maliciously manipulated
+            switch (parts[0]) {
                 case "T":
                     t = new ToDo(parts[2]);
                     taskList.add(t);
@@ -57,15 +61,11 @@ public class Aurora {
                     t = new Event(parts[2], parts[3], parts[4]);
                     taskList.add(t);
                     break;
-                }
-
-                if (t != null && parts[1].equals("1")) {
-                    t.markAsDone();
-                }
             }
 
-        } catch (IOException e) {
-            throw new AuroraException("File could not be read.");
+            if (t != null && parts[1].equals("1")) {
+                t.markAsDone();
+            }
         }
     }
 
