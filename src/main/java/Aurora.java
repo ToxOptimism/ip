@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -6,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Aurora {
 
@@ -56,11 +59,11 @@ public class Aurora {
                     taskList.add(t);
                     break;
                 case "D":
-                    t = new Deadline(parts[2], parts[3]);
+                    t = new Deadline(parts[2], parseDateTime(parts[3]));
                     taskList.add(t);
                     break;
                 case "E":
-                    t = new Event(parts[2], parts[3], parts[4]);
+                    t = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
                     taskList.add(t);
                     break;
             }
@@ -162,8 +165,14 @@ public class Aurora {
             throw new AuroraException("Missing argument: \"By\" in \"/by By\".\nUsage: \"deadline Description /by By\"");
         }
 
-        Deadline d = new Deadline(beforeBy,
-                info.substring(byDateStart + 3).trim());
+        String byDate = info.substring(byDateStart + 3).trim();
+        LocalDateTime bDate = parseDateTime(byDate);
+
+        if (bDate == null) {
+            throw new AuroraException("Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"deadline Description /by By\"");
+        }
+
+        Deadline d = new Deadline(beforeBy, bDate);
         addToList(d);
     }
 
@@ -231,9 +240,21 @@ public class Aurora {
             throw new AuroraException("Missing argument: \"To\" in \"/to To\".\nUsage: \"event Description /from From /to To\"");
         }
 
-        Event e = new Event(info.substring(0, fromDateStart).trim(),
-                info.substring(fromDateStart + 5, toDateStart).trim(),
-                info.substring(toDateStart + 3).trim());
+        String description = info.substring(0, fromDateStart).trim();
+        String fromDate = info.substring(fromDateStart + 5, toDateStart).trim();
+        String toDate = info.substring(toDateStart + 3).trim();
+        LocalDateTime fDate = parseDateTime(fromDate);
+        LocalDateTime tDate = parseDateTime(toDate);
+
+        if (fDate == null) {
+            throw new AuroraException("Invalid format: \"From\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"event Description /from From /to To\"");
+        }
+
+        if (tDate == null) {
+            throw new AuroraException("Invalid format: \"To\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"event Description /from From /to To\"");
+        }
+
+        Event e = new Event(description, fDate, tDate);
         addToList(e);
     }
 
@@ -251,6 +272,16 @@ public class Aurora {
             return true;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    public static LocalDateTime parseDateTime(String input) {
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+
+        try {
+            return LocalDateTime.parse(input, inputFormat);
+        } catch (DateTimeParseException e) {
+            return null;
         }
     }
 
