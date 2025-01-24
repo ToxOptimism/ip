@@ -1,5 +1,11 @@
+import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 public class Aurora {
 
@@ -11,6 +17,84 @@ public class Aurora {
     private static final String DELETE_TASK = "I've removed this task:";
 
     private static ArrayList<Task> taskList = new ArrayList<>();
+    private static Path taskListFile = null;
+
+    public static Path generateTaskListFile() throws AuroraException{
+        Path taskListPath = Paths.get("./","data","taskList.txt");
+        Path directory = taskListPath.getParent();
+
+        try {
+            if (!Files.exists(directory)) {
+                Files.createDirectory(taskListPath.getParent());
+            }
+
+            if (!Files.exists(taskListPath)) {
+                Files.createFile(taskListPath);
+            }
+
+            return taskListPath;
+
+        } catch (IOException e) {
+            throw new AuroraException("File could not be created.");
+        }
+    }
+
+    public static void loadTaskList() throws AuroraException {
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(taskListFile);
+        } catch (IOException e) {
+            throw new AuroraException("File could not be read.");
+        }
+        for (String line : lines) {
+            String[] parts = line.split(" \\| ");
+            Task t = null;
+            // Assumption: data has not been maliciously manipulated
+            switch (parts[0]) {
+                case "T":
+                    t = new ToDo(parts[2]);
+                    taskList.add(t);
+                    break;
+                case "D":
+                    t = new Deadline(parts[2], parts[3]);
+                    taskList.add(t);
+                    break;
+                case "E":
+                    t = new Event(parts[2], parts[3], parts[4]);
+                    taskList.add(t);
+                    break;
+            }
+
+            if (t != null && parts[1].equals("1")) {
+                t.markAsDone();
+            }
+        }
+    }
+
+    public static void overwriteTaskListFile() throws AuroraException {
+        List<String> lines = new ArrayList<>();
+
+        for (Task task : taskList) {
+            lines.add(task.toFileFormat());
+        }
+
+        try {
+            Files.write(taskListFile, lines);
+        } catch (IOException e) {
+            throw new AuroraException("File could not be written to.");
+        }
+    }
+
+    public static void appendTaskListFile(Task t) throws AuroraException {
+        List<String> lines = new ArrayList<>();
+        lines.add(t.toFileFormat());
+
+        try {
+            Files.write(taskListFile, lines, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new AuroraException("File could not be written to.");
+        }
+    }
 
     public static void printMsg(String msg) {
         System.out.println("=======================");
@@ -18,9 +102,10 @@ public class Aurora {
         System.out.println("=======================");
     }
 
-    public static void addToList(Task t) {
+    public static void addToList(Task t) throws AuroraException {
         taskList.add(t);
         printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
+        appendTaskListFile(t);
     }
 
     public static void addToDo(String[] argsList) throws AuroraException {
@@ -186,6 +271,7 @@ public class Aurora {
         t.markAsDone();
 
         printMsg(MARK + "\n" + t);
+        overwriteTaskListFile();
     }
 
     public static void unmarkTaskDone(String[] argsList) throws AuroraException{
@@ -205,6 +291,7 @@ public class Aurora {
         t.unmarkAsDone();
 
         printMsg(UNMARK + "\n" + t);
+        overwriteTaskListFile();
     }
 
     public static void delete(String[] argsList) throws AuroraException{
@@ -223,6 +310,7 @@ public class Aurora {
         Task t = taskList.remove(index - 1);
 
         printMsg(DELETE_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
+        overwriteTaskListFile();
     }
 
     public static void displayList() {
@@ -237,6 +325,15 @@ public class Aurora {
     }
 
     public static void main(String[] args) {
+
+        try {
+            taskListFile = generateTaskListFile();
+            loadTaskList();
+        } catch (AuroraException e) {
+            printMsg(e.getMessage());
+            printMsg(GOODBYE);
+            return;
+        }
 
         Scanner sc = new Scanner(System.in);
         boolean end = false; // Boolean to determine if chatbot should end
