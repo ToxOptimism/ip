@@ -17,6 +17,7 @@ public class Aurora {
     private static final String DELETE_TASK = "I've removed this task:";
 
     private static ArrayList<Task> taskList = new ArrayList<>();
+    private static Path taskListFile = null;
 
     public static Path generateTaskListFile() throws AuroraException{
         Path taskListPath = Paths.get("./","data","taskList.txt");
@@ -38,10 +39,10 @@ public class Aurora {
         }
     }
 
-    public static void loadTaskList(Path taskListPath) throws AuroraException {
+    public static void loadTaskList() throws AuroraException {
         List<String> lines = null;
         try {
-            lines = Files.readAllLines(taskListPath);
+            lines = Files.readAllLines(taskListFile);
         } catch (IOException e) {
             throw new AuroraException("File could not be read.");
         }
@@ -70,7 +71,7 @@ public class Aurora {
         }
     }
 
-    public static void overwriteTaskListFile(Path taskListPath) throws AuroraException {
+    public static void overwriteTaskListFile() throws AuroraException {
         List<String> lines = new ArrayList<>();
 
         for (Task task : taskList) {
@@ -78,18 +79,18 @@ public class Aurora {
         }
 
         try {
-            Files.write(taskListPath, lines);
+            Files.write(taskListFile, lines);
         } catch (IOException e) {
             throw new AuroraException("File could not be written to.");
         }
     }
 
-    public static void appendTaskListFile(Path taskListPath, Task t) throws AuroraException {
+    public static void appendTaskListFile(Task t) throws AuroraException {
         List<String> lines = new ArrayList<>();
         lines.add(t.toFileFormat());
 
         try {
-            Files.write(taskListPath, lines, StandardOpenOption.APPEND);
+            Files.write(taskListFile, lines, StandardOpenOption.APPEND);
         } catch (IOException e) {
             throw new AuroraException("File could not be written to.");
         }
@@ -101,9 +102,10 @@ public class Aurora {
         System.out.println("=======================");
     }
 
-    public static void addToList(Task t) {
+    public static void addToList(Task t) throws AuroraException {
         taskList.add(t);
         printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
+        appendTaskListFile(t);
     }
 
     public static void addToDo(String[] argsList) throws AuroraException {
@@ -269,6 +271,7 @@ public class Aurora {
         t.markAsDone();
 
         printMsg(MARK + "\n" + t);
+        overwriteTaskListFile();
     }
 
     public static void unmarkTaskDone(String[] argsList) throws AuroraException{
@@ -288,6 +291,7 @@ public class Aurora {
         t.unmarkAsDone();
 
         printMsg(UNMARK + "\n" + t);
+        overwriteTaskListFile();
     }
 
     public static void delete(String[] argsList) throws AuroraException{
@@ -306,6 +310,7 @@ public class Aurora {
         Task t = taskList.remove(index - 1);
 
         printMsg(DELETE_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
+        overwriteTaskListFile();
     }
 
     public static void displayList() {
@@ -322,8 +327,8 @@ public class Aurora {
     public static void main(String[] args) {
 
         try {
-            Path taskListFile = generateTaskListFile();
-            loadTaskList(taskListFile);
+            taskListFile = generateTaskListFile();
+            loadTaskList();
         } catch (AuroraException e) {
             printMsg(e.getMessage());
             printMsg(GOODBYE);

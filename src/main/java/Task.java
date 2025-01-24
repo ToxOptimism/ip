@@ -16,7 +16,7 @@ public class Task {
     }
 
     public String getStatusFileFormat() {
-        return (isDone ? "0" : "1"); // mark done task with 1
+        return (isDone ? "1" : "0"); // mark done task with 1
     }
 
     public void markAsDone() {
