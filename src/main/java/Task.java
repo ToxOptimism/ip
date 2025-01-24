@@ -15,12 +15,20 @@ public class Task {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
+    public String getStatusFileFormat() {
+        return (isDone ? "0" : "1"); // mark done task with 1
+    }
+
     public void markAsDone() {
         isDone = true;
     }
 
     public void unmarkAsDone() {
         isDone = false;
+    }
+
+    public String toFileFormat() {
+        return (getStatusFileFormat() + " | " + description);
     }
 
     @Override

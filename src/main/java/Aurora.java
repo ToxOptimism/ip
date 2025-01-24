@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 public class Aurora {
 
@@ -66,6 +67,31 @@ public class Aurora {
             if (t != null && parts[1].equals("1")) {
                 t.markAsDone();
             }
+        }
+    }
+
+    public static void overwriteTaskListFile(Path taskListPath) throws AuroraException {
+        List<String> lines = new ArrayList<>();
+
+        for (Task task : taskList) {
+            lines.add(task.toFileFormat());
+        }
+
+        try {
+            Files.write(taskListPath, lines);
+        } catch (IOException e) {
+            throw new AuroraException("File could not be written to.");
+        }
+    }
+
+    public static void appendTaskListFile(Path taskListPath, Task t) throws AuroraException {
+        List<String> lines = new ArrayList<>();
+        lines.add(t.toFileFormat());
+
+        try {
+            Files.write(taskListPath, lines, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            throw new AuroraException("File could not be written to.");
         }
     }
 
