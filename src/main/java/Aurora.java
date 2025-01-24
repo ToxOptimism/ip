@@ -1,5 +1,9 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 
 public class Aurora {
 
@@ -11,6 +15,27 @@ public class Aurora {
     private static final String DELETE_TASK = "I've removed this task:";
 
     private static ArrayList<Task> taskList = new ArrayList<>();
+
+    public static Path generateTaskListFile() throws AuroraException{
+        Path taskListPath = Paths.get("./","data","taskList.txt");
+        Path directory = taskListPath.getParent();
+
+        try {
+            if (!Files.exists(directory)) {
+                Files.createDirectory(taskListPath.getParent());
+            }
+
+            if (!Files.exists(taskListPath)) {
+                Files.createFile(taskListPath);
+            }
+
+            return taskListPath;
+
+        } catch (IOException e) {
+            throw new AuroraException("File could not be created.");
+        }
+    }
+
 
     public static void printMsg(String msg) {
         System.out.println("=======================");
