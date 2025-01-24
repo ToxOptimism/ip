@@ -1,10 +1,7 @@
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Aurora {
 
@@ -36,15 +33,9 @@ public class Aurora {
         Storage.appendTaskListFile(lines);
     }
 
-    public static void printMsg(String msg) {
-        System.out.println("=======================");
-        System.out.println(msg);
-        System.out.println("=======================");
-    }
-
     public static void addToList(Task t) throws AuroraException {
         taskList.addToList(t);
-        printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.getSize() + " tasks in the list!");
+        Ui.printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.getSize() + " tasks in the list!");
         appendTaskListFile(t);
     }
 
@@ -194,17 +185,7 @@ public class Aurora {
         Event e = new Event(description, fDate, tDate);
         addToList(e);
     }
-
-    public static void checkWithinTaskList(int index, int lower, int upper) throws AuroraException {
-        if (lower > upper) {
-            throw new AuroraException("Task List is empty. Unable to run command.");
-        } else if (index < lower || index > upper) {
-            throw new AuroraException("Argument provided \"" + index + "\" must be between bounds of " + lower + " and " + upper + ".");
-        }
-    }
-
-
-
+    
     public static void markTaskDone(String[] argsList) throws AuroraException {
         // If no arguments provided
         if (argsList.length < 2) {
@@ -218,7 +199,7 @@ public class Aurora {
         int index = Integer.parseInt(argsList[1]);
         Task t = taskList.markTaskDone(index);
 
-        printMsg(MARK + "\n" + t);
+        Ui.printMsg(MARK + "\n" + t);
         overwriteTaskListFile();
     }
 
@@ -235,7 +216,7 @@ public class Aurora {
         int index = Integer.parseInt(argsList[1]);
         Task t = taskList.unmarkTaskDone(index);
 
-        printMsg(UNMARK + "\n" + t);
+        Ui.printMsg(UNMARK + "\n" + t);
         overwriteTaskListFile();
     }
 
@@ -252,17 +233,8 @@ public class Aurora {
         int index = Integer.parseInt(argsList[1]);
         Task t = taskList.deleteFromList(index);
 
-        printMsg(DELETE_TASK + "\n" + t + "\n" + "Now you have " + taskList.getSize() + " tasks in the list!");
+        Ui.printMsg(DELETE_TASK + "\n" + t + "\n" + "Now you have " + taskList.getSize() + " tasks in the list!");
         overwriteTaskListFile();
-    }
-
-    public static void displayList() {
-
-        System.out.println("=======================");
-        if (taskList.getSize() != 0) {
-            System.out.println(taskList.toString());
-        }
-        System.out.println("=======================");
     }
 
     public static void main(String[] args) {
@@ -272,8 +244,8 @@ public class Aurora {
             Storage.generateTaskListFile();
             loadTaskList();
         } catch (AuroraException e) {
-            printMsg(e.getMessage());
-            printMsg(GOODBYE);
+            Ui.printMsg(e.getMessage());
+            Ui.printMsg(GOODBYE);
             return;
         }
 
@@ -281,7 +253,7 @@ public class Aurora {
         boolean end = false; // Boolean to determine if chatbot should end
 
         // Greet User
-        printMsg(GREETING);
+        Ui.printMsg(GREETING);
 
         // Chatbot
         while (!end) {
@@ -293,7 +265,7 @@ public class Aurora {
                         end = true; // Break out of loop
                         break;
                     case "list":
-                        displayList();
+                        Ui.displayList(taskList);
                         break;
                     case "mark":
                         markTaskDone(argsList);
@@ -317,11 +289,11 @@ public class Aurora {
                         throw new AuroraException("Unknown command: " + command);
                 }
             } catch (AuroraException e) {
-                printMsg(e.getMessage());
+                Ui.printMsg(e.getMessage());
             }
         }
 
         // Say goodbye to user
-        printMsg(GOODBYE);
+        Ui.printMsg(GOODBYE);
     }
 }
