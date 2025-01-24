@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.nio.file.Files;
@@ -36,6 +37,37 @@ public class Aurora {
         }
     }
 
+    public static void loadTaskList(Path taskListPath) throws AuroraException {
+        try {
+            List<String> lines = Files.readAllLines(taskListPath);
+            for (String line : lines) {
+                String[] parts = line.split(" \\| ");
+                Task t = null;
+                // Assumption: data has not been maliciously manipulated
+                switch (parts[0]) {
+                case "T":
+                    t = new ToDo(parts[2]);
+                    taskList.add(t);
+                    break;
+                case "D":
+                    t = new Deadline(parts[2], parts[3]);
+                    taskList.add(t);
+                    break;
+                case "E":
+                    t = new Event(parts[2], parts[3], parts[4]);
+                    taskList.add(t);
+                    break;
+                }
+
+                if (t != null && parts[1].equals("1")) {
+                    t.markAsDone();
+                }
+            }
+
+        } catch (IOException e) {
+            throw new AuroraException("File could not be read.");
+        }
+    }
 
     public static void printMsg(String msg) {
         System.out.println("=======================");
@@ -262,6 +294,15 @@ public class Aurora {
     }
 
     public static void main(String[] args) {
+
+        try {
+            Path taskListFile = generateTaskListFile();
+            loadTaskList(taskListFile);
+        } catch (AuroraException e) {
+            printMsg(e.getMessage());
+            printMsg(GOODBYE);
+            return;
+        }
 
         Scanner sc = new Scanner(System.in);
         boolean end = false; // Boolean to determine if chatbot should end
