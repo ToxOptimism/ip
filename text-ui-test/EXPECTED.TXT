@@ -21,7 +21,7 @@ Usage: "todo Description"
 =======================
 =======================
 I've added this task:
-[D][ ] return book (by: Sunday)
+[D][ ] return book (by: Dec 2 2019 6:00pm)
 Now you have 2 tasks in the list!
 =======================
 =======================
@@ -41,12 +41,16 @@ Missing argument: "/by By".
 Usage: "deadline Description /by By"
 =======================
 =======================
+Invalid format: "By" must be a valid date format of dd/mm/yyyy hhmm.
+Usage: "deadline Description /by By"
+=======================
+=======================
 1. [T][ ] borrow book
-2. [D][ ] return book (by: Sunday)
+2. [D][ ] return book (by: Dec 2 2019 6:00pm)
 =======================
 =======================
 I've added this task:
-[E][ ] project meeting (from: Mon 2pm to: 4pm)
+[E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 Now you have 3 tasks in the list!
 =======================
 =======================
@@ -78,17 +82,25 @@ Missing argument: "/from From".
 Usage: "event Description /from From /to To"
 =======================
 =======================
+Invalid format: "From" must be a valid date format of dd/mm/yyyy hhmm.
+Usage: "event Description /from From /to To"
+=======================
+=======================
+Invalid format: "To" must be a valid date format of dd/mm/yyyy hhmm.
+Usage: "event Description /from From /to To"
+=======================
+=======================
 1. [T][ ] borrow book
-2. [D][ ] return book (by: Sunday)
-3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+2. [D][ ] return book (by: Dec 2 2019 6:00pm)
+3. [E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 =======================
 =======================
 Unknown command: testing unknown command
 =======================
 =======================
 1. [T][ ] borrow book
-2. [D][ ] return book (by: Sunday)
-3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+2. [D][ ] return book (by: Dec 2 2019 6:00pm)
+3. [E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 =======================
 =======================
 Invalid arguments: index must be a valid integer value.
@@ -103,12 +115,12 @@ This task has been marked as done:
 =======================
 =======================
 This task has been marked as done:
-[D][X] return book (by: Sunday)
+[D][X] return book (by: Dec 2 2019 6:00pm)
 =======================
 =======================
 1. [T][X] borrow book
-2. [D][X] return book (by: Sunday)
-3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+2. [D][X] return book (by: Dec 2 2019 6:00pm)
+3. [E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 =======================
 =======================
 Invalid arguments: Index must be a valid integer value.
@@ -116,19 +128,19 @@ Usage: "unmark Index"
 =======================
 =======================
 This task has been marked as not done:
-[D][ ] return book (by: Sunday)
+[D][ ] return book (by: Dec 2 2019 6:00pm)
 =======================
 =======================
 This task has been marked as not done:
-[E][ ] project meeting (from: Mon 2pm to: 4pm)
+[E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 =======================
 =======================
 Argument provided "8" must be between bounds of 1 and 3.
 =======================
 =======================
 1. [T][X] borrow book
-2. [D][ ] return book (by: Sunday)
-3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+2. [D][ ] return book (by: Dec 2 2019 6:00pm)
+3. [E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 =======================
 =======================
 Argument provided "8" must be between bounds of 1 and 3.
@@ -143,8 +155,8 @@ I've removed this task:
 Now you have 2 tasks in the list!
 =======================
 =======================
-1. [D][ ] return book (by: Sunday)
-2. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+1. [D][ ] return book (by: Dec 2 2019 6:00pm)
+2. [E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 =======================
 =======================
 Bye. Hope to see you again soon!
