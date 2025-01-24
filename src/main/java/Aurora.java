@@ -19,8 +19,8 @@ public class Aurora {
     private static final String ADD_TASK = "I've added this task:";
     private static final String DELETE_TASK = "I've removed this task:";
 
-    private static ArrayList<Task> taskList = new ArrayList<>();
     private static Path taskListFile = null;
+    private static TaskList taskList = null;
 
     public static Path generateTaskListFile() throws AuroraException{
         Path taskListPath = Paths.get("./","data","taskList.txt");
@@ -56,15 +56,15 @@ public class Aurora {
             switch (parts[0]) {
                 case "T":
                     t = new ToDo(parts[2]);
-                    taskList.add(t);
+                    taskList.addToList(t);
                     break;
                 case "D":
                     t = new Deadline(parts[2], parseDateTime(parts[3]));
-                    taskList.add(t);
+                    taskList.addToList(t);
                     break;
                 case "E":
                     t = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
-                    taskList.add(t);
+                    taskList.addToList(t);
                     break;
             }
 
@@ -75,11 +75,7 @@ public class Aurora {
     }
 
     public static void overwriteTaskListFile() throws AuroraException {
-        List<String> lines = new ArrayList<>();
-
-        for (Task task : taskList) {
-            lines.add(task.toFileFormat());
-        }
+        List<String> lines = taskList.toFileFormat();
 
         try {
             Files.write(taskListFile, lines);
@@ -106,8 +102,8 @@ public class Aurora {
     }
 
     public static void addToList(Task t) throws AuroraException {
-        taskList.add(t);
-        printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
+        taskList.addToList(t);
+        printMsg(ADD_TASK + "\n" + t + "\n" + "Now you have " + taskList.getSize() + " tasks in the list!");
         appendTaskListFile(t);
     }
 
@@ -296,10 +292,7 @@ public class Aurora {
         }
 
         int index = Integer.parseInt(argsList[1]);
-        checkWithinTaskList(index, 1, taskList.size()); // throws an exception
-
-        Task t = taskList.get(index - 1);
-        t.markAsDone();
+        Task t = taskList.markTaskDone(index);
 
         printMsg(MARK + "\n" + t);
         overwriteTaskListFile();
@@ -316,10 +309,7 @@ public class Aurora {
         }
 
         int index = Integer.parseInt(argsList[1]);
-        checkWithinTaskList(index, 1, taskList.size()); // throws an exception
-
-        Task t = taskList.get(index - 1);
-        t.unmarkAsDone();
+        Task t = taskList.unmarkTaskDone(index);
 
         printMsg(UNMARK + "\n" + t);
         overwriteTaskListFile();
@@ -336,27 +326,24 @@ public class Aurora {
         }
 
         int index = Integer.parseInt(argsList[1]);
-        checkWithinTaskList(index, 1, taskList.size()); // throws an exception
+        Task t = taskList.deleteFromList(index);
 
-        Task t = taskList.remove(index - 1);
-
-        printMsg(DELETE_TASK + "\n" + t + "\n" + "Now you have " + taskList.size() + " tasks in the list!");
+        printMsg(DELETE_TASK + "\n" + t + "\n" + "Now you have " + taskList.getSize() + " tasks in the list!");
         overwriteTaskListFile();
     }
 
     public static void displayList() {
-        int index = 1;
 
         System.out.println("=======================");
-        for (Task task : taskList) {
-            System.out.println(index + ". " + task);
-            index += 1;
+        if (taskList.getSize() != 0) {
+            System.out.println(taskList.toString());
         }
         System.out.println("=======================");
     }
 
     public static void main(String[] args) {
 
+        taskList = new TaskList();
         try {
             taskListFile = generateTaskListFile();
             loadTaskList();
