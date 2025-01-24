@@ -15,32 +15,13 @@ public class Aurora {
     private static final String ADD_TASK = "I've added this task:";
     private static final String DELETE_TASK = "I've removed this task:";
 
-    private static TaskList taskList = null;
+    private static TaskList taskList = new TaskList();
 
     public static void loadTaskList() throws AuroraException {
         List<String> lines = Storage.loadTaskListData();
-        for (String line : lines) {
-            String[] parts = line.split(" \\| ");
-            Task t = null;
-            // Assumption: data has not been maliciously manipulated
-            switch (parts[0]) {
-                case "T":
-                    t = new ToDo(parts[2]);
-                    taskList.addToList(t);
-                    break;
-                case "D":
-                    t = new Deadline(parts[2], parseDateTime(parts[3]));
-                    taskList.addToList(t);
-                    break;
-                case "E":
-                    t = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
-                    taskList.addToList(t);
-                    break;
-            }
-
-            if (t != null && parts[1].equals("1")) {
-                t.markAsDone();
-            }
+        List<Task> tasks = Parser.parseTaskListFile(lines);
+        for (Task task : tasks) {
+            taskList.addToList(task);
         }
     }
 
@@ -122,7 +103,7 @@ public class Aurora {
         }
 
         String byDate = info.substring(byDateStart + 3).trim();
-        LocalDateTime bDate = parseDateTime(byDate);
+        LocalDateTime bDate = Parser.parseDateTime(byDate);
 
         if (bDate == null) {
             throw new AuroraException("Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"deadline Description /by By\"");
@@ -199,8 +180,8 @@ public class Aurora {
         String description = info.substring(0, fromDateStart).trim();
         String fromDate = info.substring(fromDateStart + 5, toDateStart).trim();
         String toDate = info.substring(toDateStart + 3).trim();
-        LocalDateTime fDate = parseDateTime(fromDate);
-        LocalDateTime tDate = parseDateTime(toDate);
+        LocalDateTime fDate = Parser.parseDateTime(fromDate);
+        LocalDateTime tDate = Parser.parseDateTime(toDate);
 
         if (fDate == null) {
             throw new AuroraException("Invalid format: \"From\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"event Description /from From /to To\"");
@@ -222,24 +203,7 @@ public class Aurora {
         }
     }
 
-    public static boolean canParseInt(String input) {
-        try {
-            Integer.parseInt(input);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
-    public static LocalDateTime parseDateTime(String input) {
-        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-
-        try {
-            return LocalDateTime.parse(input, inputFormat);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
-    }
 
     public static void markTaskDone(String[] argsList) throws AuroraException {
         // If no arguments provided
@@ -247,7 +211,7 @@ public class Aurora {
             throw new AuroraException("Missing argument: \"Description\".\nUsage: \"mark Index\"");
 
         // Argument provided is not an integer
-        } else if (!canParseInt(argsList[1])) {
+        } else if (!Parser.canParseInt(argsList[1])) {
             throw new AuroraException("Invalid arguments: index must be a valid integer value.\nUsage: \"mark Index\"");
         }
 
@@ -264,7 +228,7 @@ public class Aurora {
             throw new AuroraException("Missing argument: Index must be a valid integer value.\nUsage: \"unmark Index\"");
 
         // Argument provided is not an integer
-        } else if (!canParseInt(argsList[1])) {
+        } else if (!Parser.canParseInt(argsList[1])) {
             throw new AuroraException("Invalid arguments: Index must be a valid integer value.\nUsage: \"unmark Index\"");
         }
 
@@ -281,7 +245,7 @@ public class Aurora {
             throw new AuroraException("Missing argument: \"Description\".\nUsage: \"delete Index\"");
 
         // Argument provided is not an integer
-        } else if (!canParseInt(argsList[1])) {
+        } else if (!Parser.canParseInt(argsList[1])) {
             throw new AuroraException("Invalid arguments: index must be a valid integer value.\nUsage: \"delete Index\"");
         }
 
