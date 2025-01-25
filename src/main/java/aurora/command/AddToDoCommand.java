@@ -1,3 +1,9 @@
+package aurora.command;
+
+import aurora.exception.AuroraException;
+import aurora.task.ToDo;
+import aurora.task.TaskList;
+
 public class AddToDoCommand extends AddCommand {
 
     private String description;

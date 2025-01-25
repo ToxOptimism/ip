@@ -1,3 +1,11 @@
+package aurora.command;
+
+import aurora.exception.AuroraException;
+import aurora.io.Ui;
+import aurora.task.Task;
+import aurora.task.TaskList;
+import aurora.util.Parser;
+
 public class UnmarkCommand extends Command {
 
     private int index;
