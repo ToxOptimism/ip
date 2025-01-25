@@ -1,5 +1,4 @@
 package aurora.util;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -20,17 +19,23 @@ import aurora.command.ListCommand;
 import aurora.command.MarkCommand;
 import aurora.command.UnmarkCommand;
 
-
 public class Parser {
 
     private static final DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    private static final Parser SINGLETON = new Parser();
 
-    public static List<Task> parseTaskListFile(List<String> lines) {
+    protected Parser() {}
+
+    public static Parser of() {
+        return SINGLETON;
+    }
+
+    public List<Task> parseTaskListFile(List<String> lines) {
         List<Task> parsedTaskList = new ArrayList<>();
 
         for (String line : lines) {
             String[] parts = line.split(" \\| ");
-            Task t = null;
+            Task t;
 
             // Assumption: data has not been maliciously manipulated
             switch (parts[0]) {
@@ -57,7 +62,7 @@ public class Parser {
         return parsedTaskList;
     }
 
-    public static boolean canParseInt(String input) {
+    public boolean canParseInt(String input) {
         try {
             Integer.parseInt(input);
             return true;
@@ -66,16 +71,19 @@ public class Parser {
         }
     }
 
-    public static LocalDateTime parseDateTime(String input) {
+    public LocalDateTime parseDateTime(String input) {
 
         try {
+            if (input == null) {
+                return null;
+            }
             return LocalDateTime.parse(input, inputFormat);
         } catch (DateTimeParseException e) {
             return null;
         }
     }
 
-    public static Command parseCommand(String input) throws AuroraException {
+    public Command parseCommand(String input) throws AuroraException {
         String[] argsList = input.split(" ", 2);
         Command command = null;
         switch (argsList[0]) {
