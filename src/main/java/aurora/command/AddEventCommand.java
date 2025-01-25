@@ -1,4 +1,10 @@
+package aurora.command;
+
 import java.time.LocalDateTime;
+import aurora.exception.AuroraException;
+import aurora.task.Event;
+import aurora.task.TaskList;
+import aurora.util.Parser;
 
 public class AddEventCommand extends AddCommand {
 

@@ -1,15 +1,17 @@
+package aurora.io;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.List;
+import aurora.exception.AuroraException;
 
 public class Storage {
     private static Path taskListFile = null;
 
-    public static void generateTaskListFile() throws AuroraException{
+    public static void generateTaskListFile() throws AuroraException {
         Path taskListPath = Paths.get("./","data","taskList.txt");
         Path directory = taskListPath.getParent();
 

@@ -1,3 +1,9 @@
+package aurora.command;
+
+import aurora.exception.AuroraException;
+import aurora.task.Deadline;
+import aurora.task.TaskList;
+import aurora.util.Parser;
 import java.time.LocalDateTime;
 
 public class AddDeadlineCommand extends AddCommand {

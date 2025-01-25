@@ -1,3 +1,9 @@
+package aurora.command;
+
+import aurora.exception.AuroraException;
+import aurora.io.Ui;
+import aurora.task.TaskList;
+
 public class ByeCommand extends Command {
 
     @Override

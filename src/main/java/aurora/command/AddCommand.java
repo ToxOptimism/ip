@@ -1,5 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
+package aurora.command;
+
+import aurora.exception.AuroraException;
+import aurora.io.Ui;
+import aurora.task.Task;
+import aurora.task.TaskList;
 
 abstract public class AddCommand extends Command {
 

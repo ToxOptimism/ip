@@ -1,5 +1,8 @@
+package aurora.task;
+
 import java.util.ArrayList;
 import java.util.List;
+import aurora.exception.AuroraException;
 
 public class TaskList {
     private ArrayList<Task> taskList;
@@ -23,7 +26,7 @@ public class TaskList {
         taskList.add(t);
     }
 
-    public Task deleteFromList(int index) throws AuroraException{
+    public Task deleteFromList(int index) throws AuroraException {
 
         validateIndex(index); // throws an exception
 
@@ -33,7 +36,7 @@ public class TaskList {
 
     }
 
-    public void validateIndex(int index) throws AuroraException  {
+    public void validateIndex(int index) throws AuroraException {
         if (taskList.isEmpty()) {
             throw new AuroraException("Task List is empty. Unable to run command.");
         } else if (index < 1 || index > taskList.size()) {
