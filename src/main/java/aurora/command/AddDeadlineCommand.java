@@ -1,6 +1,7 @@
 package aurora.command;
 
 import aurora.exception.AuroraException;
+import aurora.io.Storage;
 import aurora.task.Deadline;
 import aurora.task.TaskList;
 import aurora.util.Parser;
@@ -12,12 +13,12 @@ public class AddDeadlineCommand extends AddCommand {
     private String description;
 
     @Override
-    public void execute(TaskList taskList) throws AuroraException {
+    public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
-        super.execute(taskList);
+        super.execute(taskList, storage);
 
         Deadline d = new Deadline(description, bDate);
-        addToList(d, taskList);
+        addToList(d, taskList, storage);
     }
 
     @Override
@@ -60,7 +61,8 @@ public class AddDeadlineCommand extends AddCommand {
         }
 
         String byDate = info.substring(byDateStart + 3).trim();
-        bDate = Parser.parseDateTime(byDate);
+        Parser parser = Parser.of();
+        bDate = parser.parseDateTime(byDate);
 
         if (bDate == null) {
             throw new AuroraException("Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"deadline Description /by By\"");

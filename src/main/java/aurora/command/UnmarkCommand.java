@@ -1,6 +1,7 @@
 package aurora.command;
 
 import aurora.exception.AuroraException;
+import aurora.io.Storage;
 import aurora.io.Ui;
 import aurora.task.Task;
 import aurora.task.TaskList;
@@ -11,13 +12,13 @@ public class UnmarkCommand extends Command {
     private int index;
 
     @Override
-    public void execute(TaskList taskList) throws AuroraException {
+    public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
-        super.execute(taskList);
+        super.execute(taskList, storage);
         Task t = taskList.unmarkTaskDone(index);
 
         Ui.printMsg("This task has been marked as not done:" + "\n" + t);
-        overwriteTaskListFile(taskList);
+        overwriteTaskListFile(taskList, storage);
     }
 
     @Override
@@ -27,7 +28,7 @@ public class UnmarkCommand extends Command {
             throw new AuroraException("Missing argument: Index must be a valid integer value.\nUsage: \"unmark Index\"");
 
             // Argument provided is not an integer
-        } else if (!Parser.canParseInt(argsList[1])) {
+        } else if (!Parser.of().canParseInt(argsList[1])) {
             throw new AuroraException("Invalid arguments: Index must be a valid integer value.\nUsage: \"unmark Index\"");
         }
 

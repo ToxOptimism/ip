@@ -10,8 +10,15 @@ import aurora.exception.AuroraException;
 
 public class Storage {
     private static Path taskListFile = null;
+    private static final Storage SINGLETON = new Storage();
 
-    public static void generateTaskListFile() throws AuroraException {
+    protected Storage() {}
+
+    public static Storage of() {
+        return SINGLETON;
+    }
+
+    public void generateTaskListFile() throws AuroraException {
         Path taskListPath = Paths.get("./","data","taskList.txt");
         Path directory = taskListPath.getParent();
 
@@ -31,8 +38,8 @@ public class Storage {
         }
     }
 
-    public static List<String> loadTaskListData() throws AuroraException {
-        List<String> lines = null;
+    public List<String> loadTaskListData() throws AuroraException {
+        List<String> lines;
         try {
             lines = Files.readAllLines(taskListFile);
             return lines;
@@ -41,7 +48,7 @@ public class Storage {
         }
     }
 
-    public static void overwriteTaskListFile(List<String> lines) throws AuroraException {
+    public void overwriteTaskListFile(List<String> lines) throws AuroraException {
         try {
             Files.write(taskListFile, lines);
         } catch (IOException e) {
@@ -49,7 +56,7 @@ public class Storage {
         }
     }
 
-    public static void appendTaskListFile(List<String> lines) throws AuroraException {
+    public void appendTaskListFile(List<String> lines) throws AuroraException {
         try {
             Files.write(taskListFile, lines, StandardOpenOption.APPEND);
         } catch (IOException e) {

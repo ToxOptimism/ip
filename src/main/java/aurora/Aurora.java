@@ -16,10 +16,11 @@ public class Aurora {
     private static final String UNMARK = "This task has been marked as not done:";
 
     private static TaskList taskList = new TaskList();
+    private static Storage storage = Storage.of();
 
     public static void loadTaskList() throws AuroraException {
-        List<String> lines = Storage.loadTaskListData();
-        List<Task> tasks = Parser.parseTaskListFile(lines);
+        List<String> lines = Storage.of().loadTaskListData();
+        List<Task> tasks = Parser.of().parseTaskListFile(lines);
         for (Task task : tasks) {
             taskList.addToList(task);
         }
@@ -27,9 +28,8 @@ public class Aurora {
 
     public static void main(String[] args) {
 
-        taskList = new TaskList();
         try {
-            Storage.generateTaskListFile();
+            storage.generateTaskListFile();
             loadTaskList();
         } catch (AuroraException e) {
             Ui.printMsg(e.getMessage());
@@ -46,8 +46,8 @@ public class Aurora {
         while (command == null || !command.isExitCommand()) {
             String input = sc.nextLine().trim();
             try {
-                command = Parser.parseCommand(input);
-                command.execute(taskList);
+                command = Parser.of().parseCommand(input);
+                command.execute(taskList, storage);
             } catch (AuroraException e) {
                 Ui.printMsg(e.getMessage());
             }

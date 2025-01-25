@@ -2,6 +2,7 @@ package aurora.command;
 
 import java.time.LocalDateTime;
 import aurora.exception.AuroraException;
+import aurora.io.Storage;
 import aurora.task.Event;
 import aurora.task.TaskList;
 import aurora.util.Parser;
@@ -13,12 +14,12 @@ public class AddEventCommand extends AddCommand {
     private String description;
 
     @Override
-    public void execute(TaskList taskList) throws AuroraException {
+    public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
-        super.execute(taskList);
+        super.execute(taskList, storage);
 
         Event e = new Event(description, fDate, tDate);
-        addToList(e, taskList);
+        addToList(e, taskList, storage);
     }
 
     @Override
@@ -89,8 +90,9 @@ public class AddEventCommand extends AddCommand {
         description = info.substring(0, fromDateStart).trim();
         String fromDate = info.substring(fromDateStart + 5, toDateStart).trim();
         String toDate = info.substring(toDateStart + 3).trim();
-        fDate = Parser.parseDateTime(fromDate);
-        tDate = Parser.parseDateTime(toDate);
+        Parser parser = Parser.of();
+        fDate = parser.parseDateTime(fromDate);
+        tDate = parser.parseDateTime(toDate);
 
         if (fDate == null) {
             throw new AuroraException("Invalid format: \"From\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"event Description /from From /to To\"");

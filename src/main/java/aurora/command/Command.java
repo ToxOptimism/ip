@@ -16,11 +16,7 @@ abstract public class Command {
         return false;
     }
 
-    public void cmdExecuted() {
-        isCmdExecuted = true;
-    }
-
-    public void execute(TaskList taskList) throws AuroraException {
+    public void execute(TaskList taskList, Storage storage) throws AuroraException {
         if (!isArgParsed) {
             throw new AuroraException("Command not parsed");
         }
@@ -34,14 +30,14 @@ abstract public class Command {
         isArgParsed = true;
     }
 
-    public void appendTaskListFile(Task t) throws AuroraException {
+    public void appendTaskListFile(Task t, Storage storage) throws AuroraException {
         List<String> lines = new ArrayList<>();
         lines.add(t.toFileFormat());
-        Storage.appendTaskListFile(lines);
+        storage.appendTaskListFile(lines);
     }
 
-    public static void overwriteTaskListFile(TaskList taskList) throws AuroraException {
+    public static void overwriteTaskListFile(TaskList taskList, Storage storage) throws AuroraException {
         List<String> lines = taskList.toFileFormat();
-        Storage.overwriteTaskListFile(lines);
+        storage.overwriteTaskListFile(lines);
     }
 }
