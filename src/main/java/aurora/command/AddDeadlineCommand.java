@@ -7,11 +7,22 @@ import aurora.task.TaskList;
 import aurora.util.Parser;
 import java.time.LocalDateTime;
 
+/**
+ * Represents a command to add a Deadline to the TaskList.
+ */
 public class AddDeadlineCommand extends AddCommand {
 
+    // Deadline specific fields
     private LocalDateTime bDate;
     private String description;
 
+    /**
+     * Executes the command to add a Deadline to the TaskList.
+     *
+     * @param taskList the taskList to add to.
+     * @param storage the storage to write to.
+     * @throws AuroraException if an error occurs in lower-level method.
+     */
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
@@ -21,6 +32,12 @@ public class AddDeadlineCommand extends AddCommand {
         addToList(d, taskList, storage);
     }
 
+    /**
+     * Parses the arguments for the command.
+     *
+     * @param argsList the arguments to parse.
+     * @throws AuroraException the appropriate exception message if unable to parse arguments.
+     */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
         // If no arguments provided
