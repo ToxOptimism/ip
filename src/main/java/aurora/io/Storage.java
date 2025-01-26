@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+
 import aurora.exception.AuroraException;
 
 /**
@@ -39,7 +40,7 @@ public class Storage {
      * @throws AuroraException if file could not be created.
      */
     public void generateTaskListFile() throws AuroraException {
-        Path taskListPath = Paths.get("./","data","taskList.txt");
+        Path taskListPath = Paths.get("./", "data", "taskList.txt");
         Path directory = taskListPath.getParent();
 
         try {

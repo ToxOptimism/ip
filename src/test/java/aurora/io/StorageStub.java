@@ -1,12 +1,14 @@
 package aurora.io;
 
-import aurora.exception.AuroraException;
 import java.util.List;
+
+import aurora.exception.AuroraException;
 
 public class StorageStub extends Storage {
     private static final StorageStub SINGLETON = new StorageStub();
 
-    protected StorageStub() {}
+    protected StorageStub() {
+    }
 
     public static StorageStub of() {
         return SINGLETON;

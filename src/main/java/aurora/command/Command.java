@@ -2,6 +2,7 @@ package aurora.command;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import aurora.exception.AuroraException;
 import aurora.io.Storage;
 import aurora.task.Task;
@@ -10,7 +11,7 @@ import aurora.task.TaskList;
 /**
  * Represents a command with the ability to parse arguments and be executed.
  */
-abstract public class Command {
+public abstract class Command {
 
     // Fields to prevent misuse of commands
     private boolean isArgParsed = false;

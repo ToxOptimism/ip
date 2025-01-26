@@ -1,13 +1,15 @@
 package aurora.command;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import aurora.exception.AuroraException;
 import aurora.io.Storage;
 import aurora.io.StorageStub;
 import aurora.task.TaskList;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AddDeadlineCommandTest extends AddCommand {
 
@@ -29,7 +31,8 @@ public class AddDeadlineCommandTest extends AddCommand {
         addDeadlineCommand.execute(taskList, storage);
 
         assertEquals(1, taskList.getSize());
-        assertEquals("[D][ ] return book (by: Dec 2 2019 6:00pm)", taskList.getTask(1).toString());
+        assertEquals("[D][ ] return book (by: Dec 2 2019 6:00pm)",
+                taskList.getTask(1).toString());
     }
 
     @Test
@@ -39,7 +42,8 @@ public class AddDeadlineCommandTest extends AddCommand {
         AuroraException exception = assertThrows(AuroraException.class, () -> {
             addDeadlineCommand.parseArgs(args);
         });
-        assertEquals("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\"", exception.getMessage());
+        assertEquals("Missing argument: \"Description\".\nUsage: \"deadline Description /by By\"",
+                exception.getMessage());
     }
 
     @Test
@@ -49,7 +53,8 @@ public class AddDeadlineCommandTest extends AddCommand {
         AuroraException exception = assertThrows(AuroraException.class, () -> {
             addDeadlineCommand.parseArgs(args);
         });
-        assertEquals("Missing argument: \"By\" in \"/by By\".\nUsage: \"deadline Description /by By\"", exception.getMessage());
+        assertEquals("Missing argument: \"By\" in \"/by By\".\nUsage: \"deadline Description /by By\"",
+                exception.getMessage());
     }
 
     @Test
@@ -59,7 +64,8 @@ public class AddDeadlineCommandTest extends AddCommand {
         AuroraException exception = assertThrows(AuroraException.class, () -> {
             addDeadlineCommand.parseArgs(args);
         });
-        assertEquals("Missing argument: \"/by By\".\nUsage: \"deadline Description /by By\"", exception.getMessage());
+        assertEquals("Missing argument: \"/by By\".\nUsage: \"deadline Description /by By\"",
+                exception.getMessage());
     }
 
     @Test
@@ -69,7 +75,8 @@ public class AddDeadlineCommandTest extends AddCommand {
         AuroraException exception = assertThrows(AuroraException.class, () -> {
             addDeadlineCommand.parseArgs(args);
         });
-        assertEquals("Missing argument: \"/by By\".\nUsage: \"deadline Description /by By\"", exception.getMessage());
+        assertEquals("Missing argument: \"/by By\".\nUsage: \"deadline Description /by By\"",
+                exception.getMessage());
     }
 
     @Test
@@ -79,7 +86,9 @@ public class AddDeadlineCommandTest extends AddCommand {
         AuroraException exception = assertThrows(AuroraException.class, () -> {
             addDeadlineCommand.parseArgs(args);
         });
-        assertEquals("Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.\nUsage: \"deadline Description /by By\"", exception.getMessage());
+        assertEquals("Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.\n"
+                        + "Usage: \"deadline Description /by By\"",
+                exception.getMessage());
     }
 
 }

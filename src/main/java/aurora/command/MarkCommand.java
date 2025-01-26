@@ -42,11 +42,13 @@ public class MarkCommand extends Command {
     public void parseArgs(String[] argsList) throws AuroraException {
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Description\".\nUsage: \"mark Index\"");
+            throw new AuroraException("Missing argument: \"Description\".\n"
+                    + "Usage: \"mark Index\"");
 
         // Argument provided is not an integer
         } else if (!Parser.of().canParseInt(argsList[1])) {
-            throw new AuroraException("Invalid arguments: index must be a valid integer value.\nUsage: \"mark Index\"");
+            throw new AuroraException("Invalid arguments: index must be a valid integer value.\n"
+                    + "Usage: \"mark Index\"");
         }
 
         index = Integer.parseInt(argsList[1]);
