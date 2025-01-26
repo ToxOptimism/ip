@@ -120,7 +120,7 @@ public class TaskList {
     /**
      * Get taskList in file format string representation.
      *
-     * @return the string representation of the TaskList in file format.
+     * @return the list of string representation of tasks in file format.
      */
     public List<String> toFileFormat() {
         List<String> lines = new ArrayList<>();
@@ -134,7 +134,7 @@ public class TaskList {
     /**
      * Get taskList in display string representation.
      *
-     * @return the string representation of the TaskList in display format.
+     * @return the list of string representation of tasks in display format.
      */
     @Override
     public String toString() {
