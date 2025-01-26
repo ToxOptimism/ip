@@ -1,8 +1,6 @@
 package aurora.util;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import aurora.exception.AuroraException;
 import aurora.command.Command;
 import aurora.command.AddDeadlineCommand;
@@ -10,6 +8,7 @@ import aurora.command.AddEventCommand;
 import aurora.command.AddToDoCommand;
 import aurora.command.ByeCommand;
 import aurora.command.DeleteCommand;
+import aurora.command.FindCommand;
 import aurora.command.ListCommand;
 import aurora.command.MarkCommand;
 import aurora.command.UnmarkCommand;
@@ -27,6 +26,18 @@ public class ParserTest {
     @BeforeEach
     public void setUp() {
         parser = new Parser();
+    }
+
+    @Test
+    public void parseCommand_createByeCommand() throws AuroraException {
+        Command command = parser.parseCommand("bye");
+        assertInstanceOf(ByeCommand.class, command);
+    }
+
+    @Test
+    public void parseCommand_createFindCommand() throws AuroraException {
+        Command command = parser.parseCommand("find b");
+        assertInstanceOf(FindCommand.class, command);
     }
 
     @Test
@@ -78,12 +89,6 @@ public class ParserTest {
         });
 
         assertEquals("Unknown command: testing unknown command", exception.getMessage());
-    }
-
-    @Test
-    public void parseCommand_createByeCommand() throws AuroraException {
-        Command command = parser.parseCommand("bye");
-        assertInstanceOf(ByeCommand.class, command);
     }
 
     @Test
