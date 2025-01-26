@@ -4,6 +4,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
 import aurora.exception.AuroraException;
 import aurora.task.Task;
 import aurora.task.ToDo;
@@ -15,6 +16,7 @@ import aurora.command.AddEventCommand;
 import aurora.command.AddToDoCommand;
 import aurora.command.ByeCommand;
 import aurora.command.DeleteCommand;
+import aurora.command.FindCommand;
 import aurora.command.ListCommand;
 import aurora.command.MarkCommand;
 import aurora.command.UnmarkCommand;
@@ -89,6 +91,9 @@ public class Parser {
         switch (argsList[0]) {
         case "bye":
             command = new ByeCommand();
+            break;
+        case "find":
+            command = new FindCommand();
             break;
         case "list":
             command = new ListCommand();
