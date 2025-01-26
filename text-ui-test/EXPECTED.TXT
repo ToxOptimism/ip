@@ -159,5 +159,14 @@ Now you have 2 tasks in the list!
 2. [E][ ] project meeting (from: Dec 2 2019 6:00pm to: Dec 4 2019 8:00am)
 =======================
 =======================
+1. [D][ ] return book (by: Dec 2 2019 6:00pm)
+=======================
+=======================
+Missing argument: "Keyword".
+Usage: "find Keyword"
+=======================
+=======================
+=======================
+=======================
 Bye. Hope to see you again soon!
 =======================

@@ -37,4 +37,7 @@ delete 8
 delete a
 delete 1
 list
+find book
+find
+find z
 bye

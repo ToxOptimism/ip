@@ -120,6 +120,24 @@ public class TaskList {
     }
 
     /**
+     * Gets list of tasks with a keyword in its description.
+     *
+     * @param keyword the keyword to search for.
+     * @return TaskList containing tasks with the keyword in its description.
+     */
+    public TaskList findMatchingKeyword(String keyword) {
+        TaskList newTaskListObj = new TaskList();
+        List<String> lines = new ArrayList<>();
+        for (Task task : taskList) {
+            if (task.hasKeyword(keyword)) {
+                newTaskListObj.addToList(task);
+            }
+        }
+
+        return newTaskListObj;
+    }
+
+    /**
      * Get taskList in file format string representation.
      *
      * @return the list of string representation of tasks in file format.

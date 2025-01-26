@@ -12,6 +12,7 @@ import aurora.command.AddToDoCommand;
 import aurora.command.ByeCommand;
 import aurora.command.Command;
 import aurora.command.DeleteCommand;
+import aurora.command.FindCommand;
 import aurora.command.ListCommand;
 import aurora.command.MarkCommand;
 import aurora.command.UnmarkCommand;
@@ -130,6 +131,9 @@ public class Parser {
         switch (argsList[0]) {
         case "bye":
             command = new ByeCommand();
+            break;
+        case "find":
+            command = new FindCommand();
             break;
         case "list":
             command = new ListCommand();
