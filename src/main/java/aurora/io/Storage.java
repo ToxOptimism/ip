@@ -6,20 +6,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+
 import aurora.exception.AuroraException;
 
 public class Storage {
     private static Path taskListFile = null;
     private static final Storage SINGLETON = new Storage();
 
-    protected Storage() {}
+    protected Storage() {
+    }
 
     public static Storage of() {
         return SINGLETON;
     }
 
     public void generateTaskListFile() throws AuroraException {
-        Path taskListPath = Paths.get("./","data","taskList.txt");
+        Path taskListPath = Paths.get("./", "data", "taskList.txt");
         Path directory = taskListPath.getParent();
 
         try {

@@ -1,30 +1,33 @@
 package aurora.util;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import aurora.exception.AuroraException;
-import aurora.task.Task;
-import aurora.task.ToDo;
-import aurora.task.Event;
-import aurora.task.Deadline;
-import aurora.command.Command;
+import java.util.ArrayList;
+import java.util.List;
+
 import aurora.command.AddDeadlineCommand;
 import aurora.command.AddEventCommand;
 import aurora.command.AddToDoCommand;
 import aurora.command.ByeCommand;
+import aurora.command.Command;
 import aurora.command.DeleteCommand;
 import aurora.command.ListCommand;
 import aurora.command.MarkCommand;
 import aurora.command.UnmarkCommand;
+import aurora.exception.AuroraException;
+import aurora.task.Deadline;
+import aurora.task.Event;
+import aurora.task.Task;
+import aurora.task.ToDo;
 
 public class Parser {
 
     private static final DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     private static final Parser SINGLETON = new Parser();
 
-    protected Parser() {}
+    protected Parser() {
+    }
 
     public static Parser of() {
         return SINGLETON;

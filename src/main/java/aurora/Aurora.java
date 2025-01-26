@@ -1,19 +1,19 @@
 package aurora;
 
-import java.util.Scanner;
 import java.util.List;
+import java.util.Scanner;
+
+import aurora.command.Command;
 import aurora.exception.AuroraException;
-import aurora.io.Ui;
 import aurora.io.Storage;
+import aurora.io.Ui;
 import aurora.task.Task;
 import aurora.task.TaskList;
-import aurora.command.Command;
 import aurora.util.Parser;
 
 public class Aurora {
 
     private static final String GREETING = "Hello! I'm Aurora.\nWhat can I do for you?";
-    private static final String UNMARK = "This task has been marked as not done:";
 
     private static TaskList taskList = new TaskList();
     private static Storage storage = Storage.of();

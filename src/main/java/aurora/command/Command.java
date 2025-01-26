@@ -2,12 +2,13 @@ package aurora.command;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import aurora.exception.AuroraException;
 import aurora.io.Storage;
 import aurora.task.Task;
 import aurora.task.TaskList;
 
-abstract public class Command {
+public abstract class Command {
 
     protected boolean isArgParsed = false;
     protected boolean isCmdExecuted = false;

@@ -2,6 +2,7 @@ package aurora.task;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import aurora.exception.AuroraException;
 
 public class TaskList {
@@ -19,7 +20,7 @@ public class TaskList {
 
         validateIndex(index); // throws an exception
 
-        return taskList.get(index-1);
+        return taskList.get(index - 1);
     }
 
     public void addToList(Task t) {
@@ -40,7 +41,8 @@ public class TaskList {
         if (taskList.isEmpty()) {
             throw new AuroraException("Task List is empty. Unable to run command.");
         } else if (index < 1 || index > taskList.size()) {
-            throw new AuroraException("Argument provided \"" + index + "\" must be between bounds of 1 and " + taskList.size() + ".");
+            throw new AuroraException("Argument provided \"" + index
+                    + "\" must be between bounds of 1 and " + taskList.size() + ".");
         }
     }
 
@@ -78,7 +80,7 @@ public class TaskList {
     public String toString() {
         StringBuilder listString = new StringBuilder();
         for (int i = 1; i <= taskList.size(); i++) {
-            listString.append(i).append(". ").append(taskList.get(i-1).toString()).append("\n");
+            listString.append(i).append(". ").append(taskList.get(i - 1).toString()).append("\n");
         }
         listString.delete(listString.length() - 1, listString.length());
         return listString.toString();

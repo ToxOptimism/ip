@@ -25,11 +25,13 @@ public class UnmarkCommand extends Command {
     public void parseArgs(String[] argsList) throws AuroraException {
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: Index must be a valid integer value.\nUsage: \"unmark Index\"");
+            throw new AuroraException("Missing argument: Index must be a valid integer value.\n"
+                    + "Usage: \"unmark Index\"");
 
-            // Argument provided is not an integer
+        // Argument provided is not an integer
         } else if (!Parser.of().canParseInt(argsList[1])) {
-            throw new AuroraException("Invalid arguments: Index must be a valid integer value.\nUsage: \"unmark Index\"");
+            throw new AuroraException("Invalid arguments: Index must be a valid integer value.\n"
+                    + "Usage: \"unmark Index\"");
         }
 
         index = Integer.parseInt(argsList[1]);

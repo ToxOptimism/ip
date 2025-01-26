@@ -13,7 +13,7 @@ public class Ui {
 
         System.out.println("=======================");
         if (taskList.getSize() != 0) {
-            System.out.println(taskList.toString());
+            System.out.println(taskList);
         }
         System.out.println("=======================");
     }
