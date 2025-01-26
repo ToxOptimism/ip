@@ -7,12 +7,23 @@ import aurora.task.Event;
 import aurora.task.TaskList;
 import aurora.util.Parser;
 
+/**
+ * Represents a command to add an Event to the TaskList.
+ */
 public class AddEventCommand extends AddCommand {
 
+    // Event specific fields
     private LocalDateTime fDate;
     private LocalDateTime tDate;
     private String description;
 
+    /**
+     * Executes the command to add an Event to the TaskList.
+     *
+     * @param taskList the taskList to add to.
+     * @param storage the storage to write to.
+     * @throws AuroraException if an error occurs in lower-level method.
+     */
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
@@ -22,6 +33,12 @@ public class AddEventCommand extends AddCommand {
         addToList(e, taskList, storage);
     }
 
+    /**
+     * Parses the arguments for the command.
+     *
+     * @param argsList the arguments to parse.
+     * @throws AuroraException the appropriate exception message if unable to parse arguments.
+     */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
         // If no arguments provided

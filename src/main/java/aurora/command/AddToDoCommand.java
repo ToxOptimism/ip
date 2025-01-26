@@ -5,10 +5,21 @@ import aurora.io.Storage;
 import aurora.task.ToDo;
 import aurora.task.TaskList;
 
+/**
+ * Represents a command to add a ToDo to the TaskList.
+ */
 public class AddToDoCommand extends AddCommand {
 
+    // ToDo specific fields
     private String description;
 
+    /**
+     * Executes the command to add a ToDo to the TaskList.
+     *
+     * @param taskList the taskList to add to.
+     * @param storage the storage to write to.
+     * @throws AuroraException if an error occurs in lower-level method.
+     */
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
@@ -19,6 +30,12 @@ public class AddToDoCommand extends AddCommand {
 
     }
 
+    /**
+     * Parses the arguments for the command.
+     *
+     * @param argsList the arguments to parse.
+     * @throws AuroraException the appropriate exception message if unable to parse arguments.
+     */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
         // If no arguments provided

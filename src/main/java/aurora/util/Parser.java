@@ -19,17 +19,37 @@ import aurora.command.ListCommand;
 import aurora.command.MarkCommand;
 import aurora.command.UnmarkCommand;
 
+/**
+ * Represents a utility class that parses various input formats.
+ */
 public class Parser {
 
+    // Expected input format of date time
     private static final DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+
+    // The singleton instance
     private static final Parser SINGLETON = new Parser();
 
+    /**
+     * Constructor for Parser
+     */
     protected Parser() {}
 
+    /**
+     * Factory method of parser.
+     *
+     * @return SINGLETON the singleton instance.
+     */
     public static Parser of() {
         return SINGLETON;
     }
 
+    /**
+     * Parses the task list file into a list of tasks.
+     *
+     * @param lines the lines of the task list file.
+     * @return parsedTaskList the list of tasks.
+     */
     public List<Task> parseTaskListFile(List<String> lines) {
         List<Task> parsedTaskList = new ArrayList<>();
 
@@ -62,6 +82,12 @@ public class Parser {
         return parsedTaskList;
     }
 
+    /**
+     * Checks if a string can be parsed into an integer.
+     *
+     * @param input the string to check.
+     * @return true if the string can be parsed into an integer.
+     */
     public boolean canParseInt(String input) {
         try {
             Integer.parseInt(input);
@@ -71,6 +97,12 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a string into a LocalDateTime object.
+     *
+     * @param input the string to check.
+     * @return LocalDateTime if the string can be parsed into a LocalDateTime object.
+     */
     public LocalDateTime parseDateTime(String input) {
 
         try {
@@ -83,6 +115,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses the user input and returns the corresponding command.
+     *
+     * @param input the user input.
+     * @return Command the corresponding command.
+     * @throws AuroraException if the user input is invalid.
+     */
     public Command parseCommand(String input) throws AuroraException {
         String[] argsList = input.split(" ", 2);
         Command command = null;

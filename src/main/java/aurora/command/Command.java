@@ -7,15 +7,32 @@ import aurora.io.Storage;
 import aurora.task.Task;
 import aurora.task.TaskList;
 
+/**
+ * Represents a command with the ability to parse arguments and be executed.
+ */
 abstract public class Command {
 
-    protected boolean isArgParsed = false;
-    protected boolean isCmdExecuted = false;
+    // Fields to prevent misuse of commands
+    private boolean isArgParsed = false;
+    private boolean isCmdExecuted = false;
 
+    /**
+     * Indicates whether the command will exit the program.
+     *
+     * @return false.
+     */
     public boolean isExitCommand() {
         return false;
     }
 
+    /**
+     * Executes the command.
+     * Sets isCmdExecuted to true if successful.
+     *
+     * @param taskList the taskList for referencing.
+     * @param storage the storage for referencing.
+     * @throws AuroraException if the command is executed without parsing or already executed.
+     */
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
         if (!isArgParsed) {
             throw new AuroraException("Command not parsed");
@@ -24,18 +41,41 @@ abstract public class Command {
         if (isCmdExecuted) {
             throw new AuroraException("Command already executed");
         }
+
+        isCmdExecuted = true;
     }
 
+    /**
+     * Parses the arguments for the command.
+     * Sets isArgParsed to true if successful.
+     *
+     * @param argsList the arguments to parse.
+     * @throws AuroraException the appropriate exception message if unable to parse arguments.
+     */
     public void parseArgs(String[] argsList) throws AuroraException {
         isArgParsed = true;
     }
 
+    /**
+     * Appends a task to the storage.
+     *
+     * @param t the task to append.
+     * @param storage the storage to write to.
+     * @throws AuroraException if unable to append task to file.
+     */
     public void appendTaskListFile(Task t, Storage storage) throws AuroraException {
         List<String> lines = new ArrayList<>();
         lines.add(t.toFileFormat());
         storage.appendTaskListFile(lines);
     }
 
+    /**
+     * Overwrites the storage with an amended TaskList.
+     *
+     * @param taskList the taskList to overwrite with.
+     * @param storage the storage to write to.
+     * @throws AuroraException if unable to overwrite file.
+     */
     public static void overwriteTaskListFile(TaskList taskList, Storage storage) throws AuroraException {
         List<String> lines = taskList.toFileFormat();
         storage.overwriteTaskListFile(lines);

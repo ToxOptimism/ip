@@ -1,38 +1,70 @@
 package aurora.task;
 
+/**
+ * Represents a Task with a description and a done status.
+ */
 public class Task {
+
+    // Task specific fields
     protected String description;
     protected boolean isDone;
 
+    /**
+     * Constructor for Task.
+     *
+     * @param description the description of the Task.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
+    /**
+     * Get status icon of the task.
+     *
+     * @return the status icon of whether the task is done.
+     */
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
+    /**
+     * Get status icon of the task in file format.
+     *
+     * @return the status icon of whether the task is done in file format.
+     */
     public String getStatusFileFormat() {
         return (isDone ? "1" : "0"); // mark done task with 1
     }
 
+    /**
+     * Mark the task as done.
+     */
     public void markAsDone() {
         isDone = true;
     }
 
+    /**
+     * Mark the task as not done.
+     */
     public void unmarkAsDone() {
         isDone = false;
     }
 
+    /**
+     * Get task in file format string representation.
+     *
+     * @return the string representation of the Task in file format.
+     */
     public String toFileFormat() {
         return (getStatusFileFormat() + " | " + description);
     }
 
+    /**
+     * Get task in display string representation.
+     *
+     * @return the string representation of the Task in display format.
+     */
     @Override
     public String toString() {
         return ("[" + getStatusIcon() + "] " + description);

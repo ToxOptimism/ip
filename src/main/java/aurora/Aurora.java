@@ -10,14 +10,24 @@ import aurora.task.TaskList;
 import aurora.command.Command;
 import aurora.util.Parser;
 
+/**
+ * Represents the main class of the Aurora application.
+ */
 public class Aurora {
 
+    // Greeting string
     private static final String GREETING = "Hello! I'm Aurora.\nWhat can I do for you?";
     private static final String UNMARK = "This task has been marked as not done:";
 
+    // The key components of the application
     private static TaskList taskList = new TaskList();
     private static Storage storage = Storage.of();
 
+    /**
+     * Loads the task list from the file.
+     *
+     * @throws AuroraException if there is an error loading the task list.
+     */
     public static void loadTaskList() throws AuroraException {
         List<String> lines = Storage.of().loadTaskListData();
         List<Task> tasks = Parser.of().parseTaskListFile(lines);
@@ -26,6 +36,11 @@ public class Aurora {
         }
     }
 
+    /**
+     * The main entry point of the Aurora application.
+     *
+     * @param args the command line arguments.
+     */
     public static void main(String[] args) {
 
         try {
