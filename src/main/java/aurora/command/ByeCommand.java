@@ -11,16 +11,6 @@ import aurora.task.TaskList;
 public class ByeCommand extends Command {
 
     /**
-     * Indicates whether the command will exit the program.
-     *
-     * @return true.
-     */
-    @Override
-    public boolean isExitCommand() {
-        return true;
-    }
-
-    /**
      * Executes the command to print a goodbye message.
      *
      * @param taskList the taskList for referencing.
@@ -33,7 +23,8 @@ public class ByeCommand extends Command {
         super.execute(taskList, storage);
 
         // Say goodbye to user
-        Ui.printMsg("Bye. Hope to see you again soon!");
+        Ui.getSingleton().printMsg("Bye. Hope to see you again soon!");
+        Ui.getSingleton().close();
 
     }
 

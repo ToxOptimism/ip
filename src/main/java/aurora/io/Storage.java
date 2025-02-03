@@ -20,7 +20,7 @@ public class Storage {
     private static final Storage SINGLETON = new Storage();
 
     /**
-     * Constructor for Storage
+     * Constructor for Storage.
      */
     protected Storage() {}
 

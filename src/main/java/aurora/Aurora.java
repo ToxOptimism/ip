@@ -1,7 +1,7 @@
 package aurora;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 import aurora.command.Command;
 import aurora.exception.AuroraException;
@@ -10,11 +10,17 @@ import aurora.io.Ui;
 import aurora.task.Task;
 import aurora.task.TaskList;
 import aurora.util.Parser;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
 
 /**
  * Represents the main class of the Aurora application.
  */
-public class Aurora {
+public class Aurora extends Application {
 
     // Greeting string
     private static final String GREETING = "Hello! I'm Aurora.\nWhat can I do for you?";
@@ -22,6 +28,7 @@ public class Aurora {
     // The key components of the application
     private static TaskList taskList = new TaskList();
     private static Storage storage = Storage.of();
+    private static Ui ui;
 
     /**
      * Loads the task list from the file.
@@ -39,34 +46,46 @@ public class Aurora {
     /**
      * The main entry point of the Aurora application.
      *
-     * @param args the command line arguments.
+     * @param stage The primary stage for this application, onto which the application scene can be set
      */
-    public static void main(String[] args) {
+    @Override
+    public void start(Stage stage) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Aurora.class.getResource("/view/AuroraWindow.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            stage.setScene(scene);
+            fxmlLoader.<Ui>getController().setAurora(this); // inject the Duke instance
+            Ui.setUiSingleton(fxmlLoader.<Ui>getController()); // inject the Ui instance
+            stage.show();
+            ui = Ui.getSingleton();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             storage.generateTaskListFile();
             loadTaskList();
         } catch (AuroraException e) {
-            Ui.printMsg(e.getMessage());
-            return;
+            ui.printMsg(e.getMessage());
         }
 
-        Scanner sc = new Scanner(System.in);
-        Command command = null;
-
-        // Greet User
-        Ui.printMsg(GREETING);
-
-        // Chatbot
-        while (command == null || !command.isExitCommand()) {
-            String input = sc.nextLine().trim();
-            try {
-                command = Parser.of().parseCommand(input);
-                command.execute(taskList, storage);
-            } catch (AuroraException e) {
-                Ui.printMsg(e.getMessage());
-            }
-        }
+        ui.printMsg(GREETING);
 
     }
+
+    /**
+     * Executes the user input.
+     *
+     * @param input The user input.
+     */
+    public void executeInput(String input) {
+        try {
+            Command command = Parser.of().parseCommand(input);
+            command.execute(taskList, storage);
+        } catch (AuroraException e) {
+            ui.printMsg(e.getMessage());
+        }
+    }
+
 }

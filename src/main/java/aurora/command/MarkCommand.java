@@ -28,7 +28,7 @@ public class MarkCommand extends Command {
         super.execute(taskList, storage);
         Task t = taskList.markTaskDone(index); // throws AuroraException if index is out of bounds
 
-        Ui.printMsg("This task has been marked as done:" + "\n" + t);
+        Ui.getSingleton().printMsg("This task has been marked as done:" + "\n" + t);
         overwriteTaskListFile(taskList, storage);
     }
 

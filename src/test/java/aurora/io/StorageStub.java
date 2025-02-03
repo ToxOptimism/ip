@@ -4,6 +4,9 @@ import java.util.List;
 
 import aurora.exception.AuroraException;
 
+/**
+ * Represents a stubbed storage class for testing purposes.
+ */
 public class StorageStub extends Storage {
     private static final StorageStub SINGLETON = new StorageStub();
 

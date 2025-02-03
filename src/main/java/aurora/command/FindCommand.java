@@ -26,8 +26,11 @@ public class FindCommand extends Command {
         super.execute(taskList, storage);
 
         TaskList filteredList = taskList.findMatchingKeyword(keyword);
-        Ui.displayList(filteredList);
-
+        if (taskList.getSize() != 0) {
+            Ui.getSingleton().printMsg(taskList.toString());
+        } else {
+            Ui.getSingleton().printMsg("The list is empty.");
+        }
     }
 
     /**

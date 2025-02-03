@@ -18,15 +18,6 @@ public abstract class Command {
     private boolean isCmdExecuted = false;
 
     /**
-     * Indicates whether the command will exit the program.
-     *
-     * @return false.
-     */
-    public boolean isExitCommand() {
-        return false;
-    }
-
-    /**
      * Executes the command.
      * Sets isCmdExecuted to true if successful.
      *

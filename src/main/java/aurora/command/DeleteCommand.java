@@ -29,7 +29,7 @@ public class DeleteCommand extends Command {
 
         Task t = taskList.deleteFromList(index); // throws AuroraException if index is out of bounds
 
-        Ui.printMsg("I've removed this task:" + "\n" + t + "\n" + "Now you have "
+        Ui.getSingleton().printMsg("I've removed this task:" + "\n" + t + "\n" + "Now you have "
                 + taskList.getSize() + " tasks in the list!");
         overwriteTaskListFile(taskList, storage);
     }

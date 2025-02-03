@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import aurora.exception.AuroraException;
 import aurora.io.Storage;
 import aurora.io.StorageStub;
+import aurora.io.Ui;
+import aurora.io.UiStub;
 import aurora.task.TaskList;
 
 public class AddDeadlineCommandTest extends AddCommand {
@@ -16,12 +18,15 @@ public class AddDeadlineCommandTest extends AddCommand {
     private AddDeadlineCommand addDeadlineCommand;
     private TaskList taskList;
     private Storage storage;
+    private Ui ui;
 
     @BeforeEach
     public void setUp() {
         addDeadlineCommand = new AddDeadlineCommand();
         taskList = new TaskList();
         storage = StorageStub.of();
+        ui = new UiStub();
+        Ui.setUiSingleton(ui);
     }
 
     @Test
