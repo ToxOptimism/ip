@@ -44,7 +44,7 @@ test {
 }
 
 application {
-    mainClass.set("aurora.Aurora")
+    mainClass.set("aurora.Launcher")
 }
 
 shadowJar {
