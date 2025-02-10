@@ -27,6 +27,9 @@ public class AddDeadlineCommand extends AddCommand {
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         super.execute(taskList, storage);
 
         Deadline d = new Deadline(description, bDate);

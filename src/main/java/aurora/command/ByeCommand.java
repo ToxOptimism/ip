@@ -20,6 +20,9 @@ public class ByeCommand extends Command {
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         super.execute(taskList, storage);
 
         // Say goodbye to user

@@ -73,6 +73,7 @@ public class Ui extends AnchorPane {
      * @param aurora The Aurora instance to be injected.
      */
     public void setAurora(Aurora aurora) {
+        assert(aurora != null) : "aurora instance is null.";
         this.aurora = aurora;
     }
 
@@ -82,10 +83,16 @@ public class Ui extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        assert(userInput != null) : "userInput editable textbox is null.";
         String input = userInput.getText();
+
+        assert(dialogContainer != null) : "dialogContainer is null.";
+        assert(userImage != null) : "userImage is null.";
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage)
         );
+
+        assert(aurora != null) : "aurora instance is null.";
         aurora.executeInput(input); // does not wait for response in event of UI blocking
         userInput.clear();
     }
@@ -96,6 +103,8 @@ public class Ui extends AnchorPane {
      * @param msg the message to be displayed.
      */
     public void printMsg(String msg) {
+
+        assert(dukeImage != null) : "dukeImage is null.";
         dialogContainer.getChildren().addAll(
                 DialogBox.getAuroraDialog(msg, dukeImage)
         );
@@ -105,6 +114,8 @@ public class Ui extends AnchorPane {
      * Closes Aurora after a delay.
      */
     public void close() {
+        assert(userInput != null) : "userInput editable textbox is null.";
+        assert(sendButton != null) : "sendButton is null.";
         userInput.setDisable(true);
         sendButton.setDisable(true);
         PauseTransition delay = new PauseTransition(Duration.seconds(1));

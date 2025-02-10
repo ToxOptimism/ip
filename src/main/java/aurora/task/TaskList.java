@@ -26,6 +26,7 @@ public class TaskList {
      * @return the size of the list.
      */
     public int getSize() {
+        assert(taskList != null) : "taskList is null.";
         return taskList.size();
     }
 
@@ -40,6 +41,7 @@ public class TaskList {
 
         validateIndex(index); // throws an exception
 
+        assert(taskList != null) : "taskList is null.";
         return taskList.get(index - 1);
     }
 
@@ -49,6 +51,7 @@ public class TaskList {
      * @param t the task to be added.
      */
     public void addToList(Task t) {
+        assert(taskList != null) : "taskList is null.";
         taskList.add(t);
     }
 
@@ -63,6 +66,7 @@ public class TaskList {
 
         validateIndex(index); // throws an exception
 
+        assert(taskList != null) : "taskList is null.";
         Task t = taskList.remove(index - 1);
 
         return t;
@@ -76,6 +80,8 @@ public class TaskList {
      * @throws AuroraException if the index is out of bounds.
      */
     public void validateIndex(int index) throws AuroraException {
+
+        assert(taskList != null) : "taskList is null.";
         if (taskList.isEmpty()) {
             throw new AuroraException("Task List is empty. Unable to run command.");
         } else if (index < 1 || index > taskList.size()) {
@@ -95,6 +101,7 @@ public class TaskList {
 
         validateIndex(index); // throws an exception
 
+        assert(taskList != null) : "taskList is null.";
         Task t = taskList.get(index - 1);
         t.markAsDone();
 
@@ -112,6 +119,7 @@ public class TaskList {
 
         validateIndex(index); // throws an exception
 
+        assert(taskList != null) : "taskList is null.";
         Task t = taskList.get(index - 1);
         t.unmarkAsDone();
 
@@ -128,6 +136,8 @@ public class TaskList {
     public TaskList findMatchingKeyword(String keyword) {
         TaskList newTaskListObj = new TaskList();
         List<String> lines = new ArrayList<>();
+
+        assert(taskList != null) : "taskList is null.";
         for (Task task : taskList) {
             if (task.hasKeyword(keyword)) {
                 newTaskListObj.addToList(task);
@@ -144,6 +154,8 @@ public class TaskList {
      */
     public List<String> toFileFormat() {
         List<String> lines = new ArrayList<>();
+
+        assert(taskList != null) : "taskList is null.";
         for (Task task : taskList) {
             lines.add(task.toFileFormat());
         }
@@ -159,10 +171,13 @@ public class TaskList {
     @Override
     public String toString() {
         StringBuilder listString = new StringBuilder();
+
+        assert(taskList != null) : "taskList is null.";
         for (int i = 1; i <= taskList.size(); i++) {
             listString.append(i).append(". ").append(taskList.get(i - 1).toString()).append("\n");
         }
         listString.delete(listString.length() - 1, listString.length());
+
         return listString.toString();
     }
 

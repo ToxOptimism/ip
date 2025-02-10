@@ -56,6 +56,10 @@ public abstract class Command {
      * @throws AuroraException if unable to append task to file.
      */
     public void appendTaskListFile(Task t, Storage storage) throws AuroraException {
+
+        assert(t != null) : "The task is null.";
+        assert(storage != null) : "Storage is null.";
+
         List<String> lines = new ArrayList<>();
         lines.add(t.toFileFormat());
         storage.appendTaskListFile(lines);
@@ -69,6 +73,10 @@ public abstract class Command {
      * @throws AuroraException if unable to overwrite file.
      */
     public static void overwriteTaskListFile(TaskList taskList, Storage storage) throws AuroraException {
+
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         List<String> lines = taskList.toFileFormat();
         storage.overwriteTaskListFile(lines);
     }
