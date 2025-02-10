@@ -11,7 +11,7 @@ import aurora.exception.AuroraException;
 public class TaskList {
 
     // TaskList specific fields
-    private ArrayList<Task> taskList;
+    private final ArrayList<Task> taskList;
 
     /**
      * Constructor for TaskList.
@@ -46,26 +46,24 @@ public class TaskList {
     /**
      * Adds a task to the list.
      *
-     * @param t the task to be added.
+     * @param task the task to be added.
      */
-    public void addToList(Task t) {
-        taskList.add(t);
+    public void addToList(Task task) {
+        taskList.add(task);
     }
 
     /**
      * Deletes a task from the list.
      *
      * @param index the 1-based index of the task to be deleted.
-     * @return t the task that was deleted.
+     * @return task the task that was deleted.
      * @throws AuroraException if the index is out of bounds.
      */
     public Task deleteFromList(int index) throws AuroraException {
 
         validateIndex(index); // throws an exception
 
-        Task t = taskList.remove(index - 1);
-
-        return t;
+        return taskList.remove(index - 1);
 
     }
 
@@ -88,34 +86,34 @@ public class TaskList {
      * Marks a task as done.
      *
      * @param index the 1-based index of the task to be marked as done.
-     * @return t the task that was marked as done.
+     * @return task the task that was marked as done.
      * @throws AuroraException if the index is out of bounds.
      */
     public Task markTaskDone(int index) throws AuroraException {
 
         validateIndex(index); // throws an exception
 
-        Task t = taskList.get(index - 1);
-        t.markAsDone();
+        Task task = taskList.get(index - 1);
+        task.markAsDone();
 
-        return t;
+        return task;
     }
 
     /**
      * Marks a task as not done.
      *
      * @param index the 1-based index of the task to be marked as not done.
-     * @return t the task that was marked as not done.
+     * @return task the task that was marked as not done.
      * @throws AuroraException if the index is out of bounds.
      */
     public Task unmarkTaskDone(int index) throws AuroraException {
 
         validateIndex(index); // throws an exception
 
-        Task t = taskList.get(index - 1);
-        t.unmarkAsDone();
+        Task task = taskList.get(index - 1);
+        task.unmarkAsDone();
 
-        return t;
+        return task;
 
     }
 
@@ -127,7 +125,6 @@ public class TaskList {
      */
     public TaskList findMatchingKeyword(String keyword) {
         TaskList newTaskListObj = new TaskList();
-        List<String> lines = new ArrayList<>();
         for (Task task : taskList) {
             if (task.hasKeyword(keyword)) {
                 newTaskListObj.addToList(task);

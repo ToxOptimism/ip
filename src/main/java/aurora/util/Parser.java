@@ -58,27 +58,27 @@ public class Parser {
 
         for (String line : lines) {
             String[] parts = line.split(" \\| ");
-            Task t;
+            Task task;
 
             // Assumption: data has not been maliciously manipulated
             switch (parts[0]) {
             case "T":
-                t = new ToDo(parts[2]);
+                task = new ToDo(parts[2]);
                 break;
             case "D":
-                t = new Deadline(parts[2], parseDateTime(parts[3]));
+                task = new Deadline(parts[2], parseDateTime(parts[3]));
                 break;
             case "E":
-                t = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
+                task = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
                 break;
             default:
                 continue;
             }
 
-            parsedTaskList.add(t);
+            parsedTaskList.add(task);
 
             if (parts[1].equals("1")) {
-                t.markAsDone();
+                task.markAsDone();
             }
         }
 
@@ -127,7 +127,7 @@ public class Parser {
      */
     public Command parseCommand(String input) throws AuroraException {
         String[] argsList = input.split(" ", 2);
-        Command command = null;
+        Command command;
         switch (argsList[0]) {
         case "bye":
             command = new ByeCommand();

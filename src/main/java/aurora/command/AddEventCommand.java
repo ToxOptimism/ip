@@ -14,8 +14,8 @@ import aurora.util.Parser;
 public class AddEventCommand extends AddCommand {
 
     // Event specific fields
-    private LocalDateTime fDate;
-    private LocalDateTime tDate;
+    private LocalDateTime fromDate;
+    private LocalDateTime toDate;
     private String description;
 
     /**
@@ -30,8 +30,8 @@ public class AddEventCommand extends AddCommand {
 
         super.execute(taskList, storage);
 
-        Event e = new Event(description, fDate, tDate);
-        addToList(e, taskList, storage);
+        Event event = new Event(description, fromDate, toDate);
+        addToList(event, taskList, storage);
     }
 
     /**
@@ -113,18 +113,18 @@ public class AddEventCommand extends AddCommand {
         }
 
         description = info.substring(0, fromDateStart).trim();
-        String fromDate = info.substring(fromDateStart + 5, toDateStart).trim();
-        String toDate = info.substring(toDateStart + 3).trim();
+        String fromDateString = info.substring(fromDateStart + 5, toDateStart).trim();
+        String toDateString = info.substring(toDateStart + 3).trim();
         Parser parser = Parser.of();
-        fDate = parser.parseDateTime(fromDate);
-        tDate = parser.parseDateTime(toDate);
+        fromDate = parser.parseDateTime(fromDateString);
+        toDate = parser.parseDateTime(toDateString);
 
-        if (fDate == null) {
+        if (fromDate == null) {
             throw new AuroraException("Invalid format: \"From\" must be a valid date format of dd/mm/yyyy hhmm."
                     + "\nUsage: \"event Description /from From /to To\"");
         }
 
-        if (tDate == null) {
+        if (toDate == null) {
             throw new AuroraException("Invalid format: \"To\" must be a valid date format of dd/mm/yyyy hhmm.\n"
                     + "Usage: \"event Description /from From /to To\"");
         }

@@ -51,13 +51,13 @@ public abstract class Command {
     /**
      * Appends a task to the storage.
      *
-     * @param t the task to append.
+     * @param task the task to append.
      * @param storage the storage to write to.
      * @throws AuroraException if unable to append task to file.
      */
-    public void appendTaskListFile(Task t, Storage storage) throws AuroraException {
+    public void appendTaskListFile(Task task, Storage storage) throws AuroraException {
         List<String> lines = new ArrayList<>();
-        lines.add(t.toFileFormat());
+        lines.add(task.toFileFormat());
         storage.appendTaskListFile(lines);
     }
 

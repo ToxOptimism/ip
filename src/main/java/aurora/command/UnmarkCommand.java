@@ -26,9 +26,9 @@ public class UnmarkCommand extends Command {
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
         super.execute(taskList, storage);
-        Task t = taskList.unmarkTaskDone(index); // throws AuroraException if index is out of bounds
+        Task task = taskList.unmarkTaskDone(index); // throws AuroraException if index is out of bounds
 
-        Ui.getSingleton().printMsg("This task has been marked as not done:" + "\n" + t);
+        Ui.getSingleton().printMsg("This task has been marked as not done:" + "\n" + task);
         overwriteTaskListFile(taskList, storage);
     }
 

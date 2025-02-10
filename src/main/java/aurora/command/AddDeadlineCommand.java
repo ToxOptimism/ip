@@ -14,7 +14,7 @@ import aurora.util.Parser;
 public class AddDeadlineCommand extends AddCommand {
 
     // Deadline specific fields
-    private LocalDateTime bDate;
+    private LocalDateTime byDate;
     private String description;
 
     /**
@@ -29,8 +29,8 @@ public class AddDeadlineCommand extends AddCommand {
 
         super.execute(taskList, storage);
 
-        Deadline d = new Deadline(description, bDate);
-        addToList(d, taskList, storage);
+        Deadline deadline = new Deadline(description, byDate);
+        addToList(deadline, taskList, storage);
     }
 
     /**
@@ -82,11 +82,11 @@ public class AddDeadlineCommand extends AddCommand {
                     + "Usage: \"deadline Description /by By\"");
         }
 
-        String byDate = info.substring(byDateStart + 3).trim();
+        String byDateString = info.substring(byDateStart + 3).trim();
         Parser parser = Parser.of();
-        bDate = parser.parseDateTime(byDate);
+        byDate = parser.parseDateTime(byDateString);
 
-        if (bDate == null) {
+        if (byDate == null) {
             throw new AuroraException("Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.\n"
                     + "Usage: \"deadline Description /by By\"");
         }

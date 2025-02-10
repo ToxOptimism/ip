@@ -25,8 +25,8 @@ public class AddToDoCommand extends AddCommand {
 
         super.execute(taskList, storage);
 
-        ToDo td = new ToDo(description);
-        addToList(td, taskList, storage);
+        ToDo toDo = new ToDo(description);
+        addToList(toDo, taskList, storage);
 
     }
 
