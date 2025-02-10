@@ -10,6 +10,14 @@ import aurora.task.ToDo;
  */
 public class AddToDoCommand extends AddCommand {
 
+    public static final String CMD_KEYWORD = "todo";
+
+    private static final String USAGE = "Usage: \"todo Description\"";
+
+    // Exception messages
+    private static final String MISSING_DESCRIPTION =
+            "Missing argument: \"Description\".";
+
     // ToDo specific fields
     private String description;
 
@@ -40,16 +48,14 @@ public class AddToDoCommand extends AddCommand {
     public void parseArgs(String[] argsList) throws AuroraException {
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Description\".\n"
-                    + "Usage: \"todo Description\"");
+            throw new AuroraException(MISSING_DESCRIPTION + "\n" + USAGE);
         }
 
         description = argsList[1].trim();
 
         // If there is no description provided
         if (description.isEmpty()) {
-            throw new AuroraException("Missing argument: \"Description\".\n"
-                    + "Usage: \"todo Description\"");
+            throw new AuroraException(MISSING_DESCRIPTION + "\n" + USAGE);
         }
 
         super.parseArgs(argsList);

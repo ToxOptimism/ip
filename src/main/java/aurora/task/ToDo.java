@@ -5,6 +5,8 @@ package aurora.task;
  */
 public class ToDo extends Task {
 
+    public static final String TASK_KEYWORD = "T";
+
     /**
      * Constructor for ToDo.
      *
@@ -21,7 +23,7 @@ public class ToDo extends Task {
      */
     @Override
     public String toFileFormat() {
-        return "T | " + super.toFileFormat();
+        return TASK_KEYWORD + " | " + super.toFileFormat();
     }
 
     /**
@@ -31,7 +33,7 @@ public class ToDo extends Task {
      */
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return "[" + TASK_KEYWORD + "]" + super.toString();
     }
 
 }

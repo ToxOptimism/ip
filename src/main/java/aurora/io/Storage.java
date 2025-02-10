@@ -13,6 +13,15 @@ import aurora.exception.AuroraException;
  * Represents the storage of the task list data.
  */
 public class Storage {
+
+    // Exception messages
+    private static final String FILE_CREATE_FAIL =
+            "File could not be created.";
+    private static final String FILE_READ_FAIL =
+            "File could not be read.";
+    private static final String FILE_WRITE_FAIL =
+            "File could not be written to.";
+
     // The persistent storage file
     private static Path taskListFile = null;
 
@@ -55,7 +64,7 @@ public class Storage {
             taskListFile = taskListPath;
 
         } catch (IOException e) {
-            throw new AuroraException("File could not be created.");
+            throw new AuroraException(FILE_CREATE_FAIL);
         }
     }
 
@@ -71,7 +80,7 @@ public class Storage {
             lines = Files.readAllLines(taskListFile);
             return lines;
         } catch (IOException e) {
-            throw new AuroraException("File could not be read.");
+            throw new AuroraException(FILE_READ_FAIL);
         }
     }
 
@@ -85,7 +94,7 @@ public class Storage {
         try {
             Files.write(taskListFile, lines);
         } catch (IOException e) {
-            throw new AuroraException("File could not be written to.");
+            throw new AuroraException(FILE_WRITE_FAIL);
         }
     }
 
@@ -99,7 +108,7 @@ public class Storage {
         try {
             Files.write(taskListFile, lines, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            throw new AuroraException("File could not be written to.");
+            throw new AuroraException(FILE_WRITE_FAIL);
         }
     }
 }

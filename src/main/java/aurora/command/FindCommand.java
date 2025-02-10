@@ -10,6 +10,15 @@ import aurora.task.TaskList;
  */
 public class FindCommand extends Command {
 
+    public static final String CMD_KEYWORD = "find";
+
+    private static final String USAGE = "Usage: \"find Keyword\"";
+    private static final String EMPTY_LIST = "The list is empty.";
+
+    // Exception messages
+    private static final String MISSING_KEYWORD_ARG =
+            "Missing argument: \"Keyword\".";
+
     // FindCommand specific fields
     private String keyword;
 
@@ -25,11 +34,12 @@ public class FindCommand extends Command {
 
         super.execute(taskList, storage);
 
+        Ui ui = Ui.getSingleton();
         TaskList filteredList = taskList.findMatchingKeyword(keyword);
-        if (taskList.getSize() != 0) {
-            Ui.getSingleton().printMsg(taskList.toString());
+        if (filteredList.getSize() != 0) {
+            ui.printMsg(filteredList.toString());
         } else {
-            Ui.getSingleton().printMsg("The list is empty.");
+            ui.printMsg(EMPTY_LIST);
         }
     }
 
@@ -43,16 +53,14 @@ public class FindCommand extends Command {
     public void parseArgs(String[] argsList) throws AuroraException {
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Keyword\".\n"
-                    + "Usage: \"find Keyword\"");
+            throw new AuroraException(MISSING_KEYWORD_ARG + "\n" + USAGE);
         }
 
         keyword = argsList[1].trim();
 
         // If there is no description provided
         if (keyword.isEmpty()) {
-            throw new AuroraException("Missing argument: \"Keyword\".\n"
-                    + "Usage: \"find Keyword\"");
+            throw new AuroraException(MISSING_KEYWORD_ARG + "\n" + USAGE);
         }
 
         super.parseArgs(argsList);

@@ -10,6 +10,10 @@ import aurora.task.TaskList;
  */
 public class ListCommand extends Command {
 
+    public static final String CMD_KEYWORD = "list";
+
+    private static final String EMPTY_LIST = "The list is empty.";
+
     /**
      * Executes the command to display the taskList.
      *
@@ -25,7 +29,7 @@ public class ListCommand extends Command {
         if (taskList.getSize() != 0) {
             Ui.getSingleton().printMsg(taskList.toString());
         } else {
-            Ui.getSingleton().printMsg("The list is empty.");
+            Ui.getSingleton().printMsg(EMPTY_LIST);
         }
     }
 
