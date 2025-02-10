@@ -26,15 +26,11 @@ public abstract class Command {
      * @throws AuroraException if the command is executed without parsing or already executed.
      */
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
-        if (!isArgParsed) {
-            throw new AuroraException("Command not parsed");
-        }
 
-        if (isCmdExecuted) {
-            throw new AuroraException("Command already executed");
-        }
+        assert(isArgParsed) : "The command's args were not parsed yet.";
+        assert(!isCmdExecuted) : "The command was already executed.";
 
-        isCmdExecuted = true;
+        this.isCmdExecuted = true;
     }
 
     /**
