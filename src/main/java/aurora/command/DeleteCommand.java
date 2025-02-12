@@ -25,6 +25,9 @@ public class DeleteCommand extends Command {
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         super.execute(taskList, storage);
 
         Task t = taskList.deleteFromList(index); // throws AuroraException if index is out of bounds
@@ -42,6 +45,9 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+
+        assert(argsList != null) : "The argsList is null.";
+
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException("Missing argument: \"Description\".\n"

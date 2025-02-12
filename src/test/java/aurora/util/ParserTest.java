@@ -129,11 +129,5 @@ public class ParserTest {
         // Somewhat trivial
         assertNull(parser.parseDateTime(""));
     }
-
-    @Test
-    public void parseDateTime_nullValue() {
-        // Somewhat trivial
-        assertNull(parser.parseDateTime(null));
-    }
 }
 

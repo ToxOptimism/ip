@@ -23,6 +23,9 @@ public class AddToDoCommand extends AddCommand {
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         super.execute(taskList, storage);
 
         ToDo td = new ToDo(description);
@@ -38,6 +41,9 @@ public class AddToDoCommand extends AddCommand {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+
+        assert(argsList != null) : "The argsList is null.";
+
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException("Missing argument: \"Description\".\n"
