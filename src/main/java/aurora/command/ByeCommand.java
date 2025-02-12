@@ -29,7 +29,6 @@ public class ByeCommand extends Command {
 
         super.execute(taskList, storage);
 
-        // Say goodbye to user
         Ui ui = Ui.getSingleton();
         ui.printMsg(BYE_MESSAGE);
         ui.close();

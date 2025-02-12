@@ -102,11 +102,11 @@ public class AddDeadlineCommand extends AddCommand {
             throw new AuroraException(MISSING_BY_ARG_IDENTIFIER + "\n" + USAGE);
 
         // If there is no details after /to
-        } else if (byDateStart + 3 == info.length()) {
+        } else if (byDateStart + BY_ARG_IDENTIFIER.length() == info.length()) {
             throw new AuroraException(MISSING_BY_ARG + "\n" + USAGE);
         }
 
-        String byDateString = info.substring(byDateStart + 3).trim();
+        String byDateString = info.substring(byDateStart + BY_ARG_IDENTIFIER.length()).trim();
         Parser parser = Parser.of();
         byDate = parser.parseDateTime(byDateString);
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import aurora.command.AddDeadlineCommand;
+import aurora.command.AddDoWithinPeriodCommand;
 import aurora.command.AddEventCommand;
 import aurora.command.AddToDoCommand;
 import aurora.command.ByeCommand;
@@ -18,6 +19,7 @@ import aurora.command.MarkCommand;
 import aurora.command.UnmarkCommand;
 import aurora.exception.AuroraException;
 import aurora.task.Deadline;
+import aurora.task.DoWithinPeriod;
 import aurora.task.Event;
 import aurora.task.Task;
 import aurora.task.ToDo;
@@ -73,6 +75,9 @@ public class Parser {
                 break;
             case Event.TASK_KEYWORD:
                 task = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
+                break;
+            case DoWithinPeriod.TASK_KEYWORD:
+                task = new DoWithinPeriod(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
                 break;
             default:
                 continue;
@@ -161,6 +166,9 @@ public class Parser {
             break;
         case AddEventCommand.CMD_KEYWORD:
             command = new AddEventCommand();
+            break;
+        case AddDoWithinPeriodCommand.CMD_KEYWORD:
+            command = new AddDoWithinPeriodCommand();
             break;
         case DeleteCommand.CMD_KEYWORD:
             command = new DeleteCommand();
