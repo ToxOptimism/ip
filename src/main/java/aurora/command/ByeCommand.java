@@ -10,6 +10,10 @@ import aurora.task.TaskList;
  */
 public class ByeCommand extends Command {
 
+    public static final String CMD_KEYWORD = "bye";
+
+    public static final String BYE_MESSAGE = "Bye. Hope to see you again soon!";
+
     /**
      * Executes the command to print a goodbye message.
      *
@@ -26,8 +30,9 @@ public class ByeCommand extends Command {
         super.execute(taskList, storage);
 
         // Say goodbye to user
-        Ui.getSingleton().printMsg("Bye. Hope to see you again soon!");
-        Ui.getSingleton().close();
+        Ui ui = Ui.getSingleton();
+        ui.printMsg(BYE_MESSAGE);
+        ui.close();
 
     }
 

@@ -11,24 +11,28 @@ import aurora.task.TaskList;
  */
 public abstract class AddCommand extends Command {
 
+    private static final String TASK_ADDED_MSG = "I've added this task:%n%s%nNow you have %d tasks in the list!";
+
     /**
      * Adds a task to the task list and prints a success message.
      *
-     * @param t the task to be added.
+     * @param task the task to be added.
      * @param taskList the taskList that stores the task.
      * @param storage the storage to write to.
      * @throws AuroraException if appending to storage fails.
      */
-    public void addToList(Task t, TaskList taskList, Storage storage) throws AuroraException {
+    public void addToList(Task task, TaskList taskList, Storage storage) throws AuroraException {
 
-        assert(t != null) : "The task is null.";
+        assert(task != null) : "The task is null.";
         assert(taskList != null) : "The taskList is null.";
         assert(storage != null) : "Storage is null.";
 
-        taskList.addToList(t);
-        Ui.getSingleton().printMsg("I've added this task:" + "\n" + t + "\n" + "Now you have " + taskList.getSize()
-                + " tasks in the list!");
-        appendTaskListFile(t, storage);
+        taskList.addToList(task);
+
+        String message = String.format(TASK_ADDED_MSG, task, taskList.getSize());
+        Ui.getSingleton().printMsg(message);
+
+        appendTaskListFile(task, storage);
     }
 
 }

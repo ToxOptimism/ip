@@ -13,8 +13,24 @@ import aurora.util.Parser;
  */
 public class AddDeadlineCommand extends AddCommand {
 
+    public static final String CMD_KEYWORD = "deadline";
+
+    private static final String BY_ARG_IDENTIFIER = "/by";
+    private static final String USAGE = "Usage: \"deadline Description /by By\"";
+
+    // Exception messages
+    private static final String MISSING_DESCRIPTION_ARG =
+            "Missing argument: \"Description\".";
+    private static final String MISSING_BY_ARG_IDENTIFIER =
+            "Missing argument: \"/by By\".";
+    private static final String MISSING_BY_ARG =
+            "Missing argument: \"By\" in \"/by By\".";
+    private static final String INVALID_BY_DATE_ARG =
+            "Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.";
+
+
     // Deadline specific fields
-    private LocalDateTime bDate;
+    private LocalDateTime byDate;
     private String description;
 
     /**
@@ -32,8 +48,8 @@ public class AddDeadlineCommand extends AddCommand {
 
         super.execute(taskList, storage);
 
-        Deadline d = new Deadline(description, bDate);
-        addToList(d, taskList, storage);
+        Deadline deadline = new Deadline(description, byDate);
+        addToList(deadline, taskList, storage);
     }
 
     /**
@@ -44,10 +60,15 @@ public class AddDeadlineCommand extends AddCommand {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+        /*
+         * The code may seem to be duplicated as a number of commands may share similar parsing.
+         * However, the code is designed with the fact that the parsing of arguments is meant to be
+         * coupled with the command it is parsing for, for ease of extending the code.
+         */
+
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Description\".\n"
-                    + "Usage: \"deadline Description /by By\"");
+            throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
         String info = argsList[1];
@@ -56,42 +77,41 @@ public class AddDeadlineCommand extends AddCommand {
         String beforeBy = info;
 
         // Account for different combinations of /by usage
-        if (info.contains("/by ")) {
-            byDateStart = info.indexOf("/by ");
-            beforeBy = info.split("/by ")[0].trim();
+        String byArgumentIdentifierWithSpace = BY_ARG_IDENTIFIER + " ";
+        String byArgumentIdentifierWithNewLine = BY_ARG_IDENTIFIER + "\n";
+
+        if (info.contains(byArgumentIdentifierWithSpace)) {
+            byDateStart = info.indexOf(byArgumentIdentifierWithSpace);
+            beforeBy = info.split(byArgumentIdentifierWithSpace)[0].trim();
             description = beforeBy;
-        } else if (info.contains("/by\n")) {
-            byDateStart = info.indexOf("/by\n");
-            beforeBy = info.split("/by\n")[0].trim();
-        } else if (info.endsWith("/by")) {
-            byDateStart = info.length() - 3;
-            beforeBy = info.substring(0, info.length() - 3).trim();
+        } else if (info.contains(byArgumentIdentifierWithNewLine)) {
+            byDateStart = info.indexOf(byArgumentIdentifierWithNewLine);
+            beforeBy = info.split(byArgumentIdentifierWithNewLine)[0].trim();
+        } else if (info.endsWith(BY_ARG_IDENTIFIER)) {
+            byDateStart = info.length() - BY_ARG_IDENTIFIER.length();
+            beforeBy = info.substring(0, byDateStart).trim();
         }
 
         // If there is no description provided
         if (info.trim().isEmpty() || beforeBy.isEmpty()) {
-            throw new AuroraException("Missing argument: \"Description\".\n"
-                    + "Usage: \"deadline Description /by By\"");
+            throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
         // If there is no /by
         if (byDateStart == -1) {
-            throw new AuroraException("Missing argument: \"/by By\"."
-                    + "\nUsage: \"deadline Description /by By\"");
+            throw new AuroraException(MISSING_BY_ARG_IDENTIFIER + "\n" + USAGE);
 
         // If there is no details after /to
         } else if (byDateStart + 3 == info.length()) {
-            throw new AuroraException("Missing argument: \"By\" in \"/by By\".\n"
-                    + "Usage: \"deadline Description /by By\"");
+            throw new AuroraException(MISSING_BY_ARG + "\n" + USAGE);
         }
 
-        String byDate = info.substring(byDateStart + 3).trim();
+        String byDateString = info.substring(byDateStart + 3).trim();
         Parser parser = Parser.of();
-        bDate = parser.parseDateTime(byDate);
+        byDate = parser.parseDateTime(byDateString);
 
-        if (bDate == null) {
-            throw new AuroraException("Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.\n"
-                    + "Usage: \"deadline Description /by By\"");
+        if (byDate == null) {
+            throw new AuroraException(INVALID_BY_DATE_ARG + "\n" + USAGE);
         }
 
         super.parseArgs(argsList);

@@ -10,6 +10,14 @@ import aurora.task.ToDo;
  */
 public class AddToDoCommand extends AddCommand {
 
+    public static final String CMD_KEYWORD = "todo";
+
+    private static final String USAGE = "Usage: \"todo Description\"";
+
+    // Exception messages
+    private static final String MISSING_DESCRIPTION =
+            "Missing argument: \"Description\".";
+
     // ToDo specific fields
     private String description;
 
@@ -28,8 +36,8 @@ public class AddToDoCommand extends AddCommand {
 
         super.execute(taskList, storage);
 
-        ToDo td = new ToDo(description);
-        addToList(td, taskList, storage);
+        ToDo toDo = new ToDo(description);
+        addToList(toDo, taskList, storage);
 
     }
 
@@ -41,21 +49,24 @@ public class AddToDoCommand extends AddCommand {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+        /*
+         * The code may seem to be duplicated as a number of commands may share similar parsing.
+         * However, the code is designed with the fact that the parsing of arguments is meant to be
+         * coupled with the command it is parsing for, for ease of extending the code.
+         */
 
         assert(argsList != null) : "The argsList is null.";
 
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Description\".\n"
-                    + "Usage: \"todo Description\"");
+            throw new AuroraException(MISSING_DESCRIPTION + "\n" + USAGE);
         }
 
         description = argsList[1].trim();
 
         // If there is no description provided
         if (description.isEmpty()) {
-            throw new AuroraException("Missing argument: \"Description\".\n"
-                    + "Usage: \"todo Description\"");
+            throw new AuroraException(MISSING_DESCRIPTION + "\n" + USAGE);
         }
 
         super.parseArgs(argsList);

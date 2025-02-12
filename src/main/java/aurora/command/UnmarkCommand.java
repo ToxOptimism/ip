@@ -12,6 +12,17 @@ import aurora.util.Parser;
  */
 public class UnmarkCommand extends Command {
 
+    public static final String CMD_KEYWORD = "unmark";
+
+    private static final String USAGE = "Usage: \"unmark Index\"";
+    private static final String TASK_UNMARKED_MSG = "This task has been marked as done:%n%s";
+
+    // Exception messages
+    private static final String MISSING_INDEX =
+            "Missing argument: \"Index\".";
+    private static final String INVALID_INDEX_ARG =
+            "Invalid arguments: index must be a valid integer value.";
+
     // The index to the task to unmark is at
     private int index;
 
@@ -29,9 +40,10 @@ public class UnmarkCommand extends Command {
         assert(storage != null) : "Storage is null.";
 
         super.execute(taskList, storage);
-        Task t = taskList.unmarkTaskDone(index); // throws AuroraException if index is out of bounds
+        Task task = taskList.unmarkTaskDone(index); // throws AuroraException if index is out of bounds
 
-        Ui.getSingleton().printMsg("This task has been marked as not done:" + "\n" + t);
+        String message = String.format(TASK_UNMARKED_MSG, task);
+        Ui.getSingleton().printMsg(message);
         overwriteTaskListFile(taskList, storage);
     }
 
@@ -43,18 +55,21 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+        /*
+         * The code may seem to be duplicated as a number of commands may share similar parsing.
+         * However, the code is designed with the fact that the parsing of arguments is meant to be
+         * coupled with the command it is parsing for, for ease of extending the code.
+         */
 
         assert(argsList != null) : "The argsList is null.";
 
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: Index must be a valid integer value.\n"
-                    + "Usage: \"unmark Index\"");
+            throw new AuroraException(MISSING_INDEX + "\n" + USAGE);
 
         // Argument provided is not an integer
         } else if (!Parser.of().canParseInt(argsList[1])) {
-            throw new AuroraException("Invalid arguments: Index must be a valid integer value.\n"
-                    + "Usage: \"unmark Index\"");
+            throw new AuroraException(INVALID_INDEX_ARG + "\n" + USAGE);
         }
 
         index = Integer.parseInt(argsList[1]);

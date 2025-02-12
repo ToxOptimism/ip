@@ -27,6 +27,9 @@ import aurora.task.ToDo;
  */
 public class Parser {
 
+    private static final String UNKNOWN_COMMAND = "Unknown command: %s";
+    private static final String FILE_TASK_MARKED = "1";
+
     // Expected input format of date time
     private static final DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
@@ -58,27 +61,27 @@ public class Parser {
 
         for (String line : lines) {
             String[] parts = line.split(" \\| ");
-            Task t;
+            Task task;
 
             // Assumption: data has not been maliciously manipulated
             switch (parts[0]) {
-            case "T":
-                t = new ToDo(parts[2]);
+            case ToDo.TASK_KEYWORD:
+                task = new ToDo(parts[2]);
                 break;
-            case "D":
-                t = new Deadline(parts[2], parseDateTime(parts[3]));
+            case Deadline.TASK_KEYWORD:
+                task = new Deadline(parts[2], parseDateTime(parts[3]));
                 break;
-            case "E":
-                t = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
+            case Event.TASK_KEYWORD:
+                task = new Event(parts[2], parseDateTime(parts[3]), parseDateTime(parts[4]));
                 break;
             default:
                 continue;
             }
 
-            parsedTaskList.add(t);
+            parsedTaskList.add(task);
 
-            if (parts[1].equals("1")) {
-                t.markAsDone();
+            if (parts[1].equals(FILE_TASK_MARKED)) {
+                task.markAsDone();
             }
         }
 
@@ -97,10 +100,11 @@ public class Parser {
 
         try {
             Integer.parseInt(input);
-            return true;
         } catch (NumberFormatException e) {
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -134,35 +138,36 @@ public class Parser {
         String[] argsList = input.split(" ", 2);
         Command command;
         switch (argsList[0]) {
-        case "bye":
+        case ByeCommand.CMD_KEYWORD:
             command = new ByeCommand();
             break;
-        case "find":
+        case FindCommand.CMD_KEYWORD:
             command = new FindCommand();
             break;
-        case "list":
+        case ListCommand.CMD_KEYWORD:
             command = new ListCommand();
             break;
-        case "mark":
+        case MarkCommand.CMD_KEYWORD:
             command = new MarkCommand();
             break;
-        case "unmark":
+        case UnmarkCommand.CMD_KEYWORD:
             command = new UnmarkCommand();
             break;
-        case "todo":
+        case AddToDoCommand.CMD_KEYWORD:
             command = new AddToDoCommand();
             break;
-        case "deadline":
+        case AddDeadlineCommand.CMD_KEYWORD:
             command = new AddDeadlineCommand();
             break;
-        case "event":
+        case AddEventCommand.CMD_KEYWORD:
             command = new AddEventCommand();
             break;
-        case "delete":
+        case DeleteCommand.CMD_KEYWORD:
             command = new DeleteCommand();
             break;
         default:
-            throw new AuroraException("Unknown command: " + input);
+            String message = String.format(UNKNOWN_COMMAND, input);
+            throw new AuroraException(message);
         }
 
         command.parseArgs(argsList);

@@ -8,11 +8,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class Event extends Task {
 
+    public static final String TASK_KEYWORD = "E";
+
     // Event specific fields
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM d yyyy h:mma");
-    private DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    private final LocalDateTime startDate;
+    private final LocalDateTime endDate;
+    private final DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM d yyyy h:mma");
+    private final DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     /**
      * Constructor for Event.
@@ -38,7 +40,7 @@ public class Event extends Task {
      */
     @Override
     public String toFileFormat() {
-        return "E | " + super.toFileFormat() + " | " + startDate.format(fileFormat)
+        return TASK_KEYWORD + " | " + super.toFileFormat() + " | " + startDate.format(fileFormat)
                 + " | " + endDate.format(fileFormat);
     }
 
@@ -49,7 +51,7 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + startDate.format(outputFormat)
+        return "[" + TASK_KEYWORD + "]" + super.toString() + " (from: " + startDate.format(outputFormat)
                 + " to: " + endDate.format(outputFormat) + ")";
     }
 }

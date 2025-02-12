@@ -10,6 +10,15 @@ import aurora.task.TaskList;
  */
 public class FindCommand extends Command {
 
+    public static final String CMD_KEYWORD = "find";
+
+    private static final String USAGE = "Usage: \"find Keyword\"";
+    private static final String EMPTY_LIST = "The list is empty.";
+
+    // Exception messages
+    private static final String MISSING_KEYWORD_ARG =
+            "Missing argument: \"Keyword\".";
+
     // FindCommand specific fields
     private String keyword;
 
@@ -28,12 +37,15 @@ public class FindCommand extends Command {
 
         super.execute(taskList, storage);
 
+        Ui ui = Ui.getSingleton();
         TaskList filteredList = taskList.findMatchingKeyword(keyword);
-        if (filteredList.getSize() != 0) {
-            Ui.getSingleton().printMsg(filteredList.toString());
-        } else {
-            Ui.getSingleton().printMsg("The list is empty.");
+
+        if (filteredList.getSize() == 0) {
+            ui.printMsg(EMPTY_LIST);
+            return;
         }
+
+        ui.printMsg(filteredList.toString());
     }
 
     /**
@@ -44,21 +56,24 @@ public class FindCommand extends Command {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+        /*
+         * The code may seem to be duplicated as a number of commands may share similar parsing.
+         * However, the code is designed with the fact that the parsing of arguments is meant to be
+         * coupled with the command it is parsing for, for ease of extending the code.
+         */
 
         assert(argsList != null) : "The argsList is null.";
 
         // If no arguments provided
         if (argsList.length < 2) {
-            throw new AuroraException("Missing argument: \"Keyword\".\n"
-                    + "Usage: \"find Keyword\"");
+            throw new AuroraException(MISSING_KEYWORD_ARG + "\n" + USAGE);
         }
 
         keyword = argsList[1].trim();
 
         // If there is no description provided
         if (keyword.isEmpty()) {
-            throw new AuroraException("Missing argument: \"Keyword\".\n"
-                    + "Usage: \"find Keyword\"");
+            throw new AuroraException(MISSING_KEYWORD_ARG + "\n" + USAGE);
         }
 
         super.parseArgs(argsList);

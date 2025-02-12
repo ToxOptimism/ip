@@ -8,10 +8,12 @@ import java.time.format.DateTimeFormatter;
  */
 public class Deadline extends Task {
 
+    public static final String TASK_KEYWORD = "D";
+
     // Deadline specific fields
-    private LocalDateTime byDate;
-    private DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM d yyyy h:mma");
-    private DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    private final LocalDateTime byDate;
+    private final DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM d yyyy h:mma");
+    private final DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     /**
      * Constructor for Deadline.
@@ -34,8 +36,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toFileFormat() {
-        return "D | " + super.toFileFormat()
-                + " | " + byDate.format(fileFormat);
+        return TASK_KEYWORD + " | " + super.toFileFormat() + " | " + byDate.format(fileFormat);
     }
 
     /**
@@ -45,6 +46,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + byDate.format(outputFormat) + ")";
+        return "[" + TASK_KEYWORD + "]" + super.toString() + " (by: " + byDate.format(outputFormat) + ")";
     }
 }

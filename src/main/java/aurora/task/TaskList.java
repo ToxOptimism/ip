@@ -11,7 +11,7 @@ import aurora.exception.AuroraException;
 public class TaskList {
 
     // TaskList specific fields
-    private ArrayList<Task> taskList;
+    private final ArrayList<Task> taskList;
 
     /**
      * Constructor for TaskList.
@@ -26,7 +26,6 @@ public class TaskList {
      * @return the size of the list.
      */
     public int getSize() {
-        assert(taskList != null) : "taskList is null.";
         return taskList.size();
     }
 
@@ -41,36 +40,31 @@ public class TaskList {
 
         validateIndex(index); // throws an exception
 
-        assert(taskList != null) : "taskList is null.";
         return taskList.get(index - 1);
     }
 
     /**
      * Adds a task to the list.
      *
-     * @param t the task to be added.
+     * @param task the task to be added.
      */
-    public void addToList(Task t) {
-        assert(taskList != null) : "taskList is null.";
-        taskList.add(t);
+    public void addToList(Task task) {
+        assert(task != null) : "task is null.";
+        taskList.add(task);
     }
 
     /**
      * Deletes a task from the list.
      *
      * @param index the 1-based index of the task to be deleted.
-     * @return t the task that was deleted.
+     * @return task the task that was deleted.
      * @throws AuroraException if the index is out of bounds.
      */
     public Task deleteFromList(int index) throws AuroraException {
 
         validateIndex(index); // throws an exception
 
-        assert(taskList != null) : "taskList is null.";
-        Task t = taskList.remove(index - 1);
-
-        return t;
-
+        return taskList.remove(index - 1);
     }
 
     /**
@@ -81,7 +75,6 @@ public class TaskList {
      */
     public void validateIndex(int index) throws AuroraException {
 
-        assert(taskList != null) : "taskList is null.";
         if (taskList.isEmpty()) {
             throw new AuroraException("Task List is empty. Unable to run command.");
         } else if (index < 1 || index > taskList.size()) {
@@ -94,36 +87,34 @@ public class TaskList {
      * Marks a task as done.
      *
      * @param index the 1-based index of the task to be marked as done.
-     * @return t the task that was marked as done.
+     * @return task the task that was marked as done.
      * @throws AuroraException if the index is out of bounds.
      */
     public Task markTaskDone(int index) throws AuroraException {
 
         validateIndex(index); // throws an exception
 
-        assert(taskList != null) : "taskList is null.";
-        Task t = taskList.get(index - 1);
-        t.markAsDone();
+        Task task = taskList.get(index - 1);
+        task.markAsDone();
 
-        return t;
+        return task;
     }
 
     /**
      * Marks a task as not done.
      *
      * @param index the 1-based index of the task to be marked as not done.
-     * @return t the task that was marked as not done.
+     * @return task the task that was marked as not done.
      * @throws AuroraException if the index is out of bounds.
      */
     public Task unmarkTaskDone(int index) throws AuroraException {
 
         validateIndex(index); // throws an exception
 
-        assert(taskList != null) : "taskList is null.";
-        Task t = taskList.get(index - 1);
-        t.unmarkAsDone();
+        Task task = taskList.get(index - 1);
+        task.unmarkAsDone();
 
-        return t;
+        return task;
 
     }
 
@@ -135,9 +126,7 @@ public class TaskList {
      */
     public TaskList findMatchingKeyword(String keyword) {
         TaskList newTaskListObj = new TaskList();
-        List<String> lines = new ArrayList<>();
 
-        assert(taskList != null) : "taskList is null.";
         for (Task task : taskList) {
             if (task.hasKeyword(keyword)) {
                 newTaskListObj.addToList(task);
@@ -155,7 +144,6 @@ public class TaskList {
     public List<String> toFileFormat() {
         List<String> lines = new ArrayList<>();
 
-        assert(taskList != null) : "taskList is null.";
         for (Task task : taskList) {
             lines.add(task.toFileFormat());
         }
@@ -172,7 +160,6 @@ public class TaskList {
     public String toString() {
         StringBuilder listString = new StringBuilder();
 
-        assert(taskList != null) : "taskList is null.";
         for (int i = 1; i <= taskList.size(); i++) {
             listString.append(i).append(". ").append(taskList.get(i - 1).toString()).append("\n");
         }

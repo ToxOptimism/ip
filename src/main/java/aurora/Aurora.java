@@ -26,8 +26,8 @@ public class Aurora extends Application {
     private static final String GREETING = "Hello! I'm Aurora.\nWhat can I do for you?";
 
     // The key components of the application
-    private static TaskList taskList = new TaskList();
-    private static Storage storage = Storage.of();
+    private static final TaskList taskList = new TaskList();
+    private static final Storage storage = Storage.of();
     private static Ui ui;
 
     /**
@@ -58,12 +58,13 @@ public class Aurora extends Application {
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             fxmlLoader.<Ui>getController().setAurora(this); // inject the Duke instance
-            Ui.setUiSingleton(fxmlLoader.<Ui>getController()); // inject the Ui instance
+            Ui.setUiSingleton(fxmlLoader.getController()); // inject the Ui instance
             stage.show();
-            ui = Ui.getSingleton();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ui = Ui.getSingleton();
 
         try {
             storage.generateTaskListFile();
