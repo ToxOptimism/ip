@@ -140,17 +140,17 @@ public class AddEventCommand extends AddCommand {
             throw new AuroraException(WRONG_ARG_IDENTIFIER_ORDER + "\n" + USAGE);
 
         // If there is no details after /from
-        } else if (fromDateStart + 5 == beforeTo.length()) {
+        } else if (fromDateStart + FROM_ARG_IDENTIFIER.length() == beforeTo.length()) {
             throw new AuroraException(MISSING_FROM_ARG + "\n" + USAGE);
 
         // If there is no details after /to
-        } else if (toDateStart + 3 == info.length()) {
+        } else if (toDateStart + TO_ARG_IDENTIFIER.length() == info.length()) {
             throw new AuroraException(MISSING_TO_ARG + "\n" + USAGE);
         }
 
         description = info.substring(0, fromDateStart).trim();
-        String fromDateString = info.substring(fromDateStart + 5, toDateStart).trim();
-        String toDateString = info.substring(toDateStart + 3).trim();
+        String fromDateString = info.substring(fromDateStart + FROM_ARG_IDENTIFIER.length(), toDateStart).trim();
+        String toDateString = info.substring(toDateStart + TO_ARG_IDENTIFIER.length()).trim();
         Parser parser = Parser.of();
         fromDate = parser.parseDateTime(fromDateString);
         toDate = parser.parseDateTime(toDateString);
