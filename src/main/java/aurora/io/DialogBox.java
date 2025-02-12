@@ -31,6 +31,10 @@ public class DialogBox extends HBox {
      * @param img the user profile image of the sender of the message.
      */
     private DialogBox(String text, Image img) {
+
+        assert(text != null) : "Text is null.";
+        assert(img != null) : "Image is null.";
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Ui.class.getResource("/view/DialogBox.fxml"));
             fxmlLoader.setController(this);
@@ -62,6 +66,9 @@ public class DialogBox extends HBox {
      * @return a user dialog box with the given text and image.
      */
     public static DialogBox getUserDialog(String text, Image img) {
+        assert(text != null) : "Text is null.";
+        assert(img != null) : "Image is null.";
+
         return new DialogBox(text, img);
     }
 
@@ -73,6 +80,9 @@ public class DialogBox extends HBox {
      * @return a chatbot dialog box with the given text and image.
      */
     public static DialogBox getAuroraDialog(String text, Image img) {
+        assert(text != null) : "Text is null.";
+        assert(img != null) : "Image is null.";
+
         var db = new DialogBox(text, img);
         db.flip();
         return db;

@@ -26,15 +26,11 @@ public abstract class Command {
      * @throws AuroraException if the command is executed without parsing or already executed.
      */
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
-        if (!isArgParsed) {
-            throw new AuroraException("Command not parsed");
-        }
 
-        if (isCmdExecuted) {
-            throw new AuroraException("Command already executed");
-        }
+        assert(isArgParsed) : "The command's args were not parsed yet.";
+        assert(!isCmdExecuted) : "The command was already executed.";
 
-        isCmdExecuted = true;
+        this.isCmdExecuted = true;
     }
 
     /**
@@ -56,6 +52,10 @@ public abstract class Command {
      * @throws AuroraException if unable to append task to file.
      */
     public void appendTaskListFile(Task task, Storage storage) throws AuroraException {
+
+        assert(task != null) : "The task is null.";
+        assert(storage != null) : "Storage is null.";
+
         List<String> lines = new ArrayList<>();
         lines.add(task.toFileFormat());
         storage.appendTaskListFile(lines);
@@ -69,6 +69,10 @@ public abstract class Command {
      * @throws AuroraException if unable to overwrite file.
      */
     public static void overwriteTaskListFile(TaskList taskList, Storage storage) throws AuroraException {
+
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         List<String> lines = taskList.toFileFormat();
         storage.overwriteTaskListFile(lines);
     }

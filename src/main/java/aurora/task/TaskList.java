@@ -49,6 +49,7 @@ public class TaskList {
      * @param task the task to be added.
      */
     public void addToList(Task task) {
+        assert(task != null) : "task is null.";
         taskList.add(task);
     }
 
@@ -64,7 +65,6 @@ public class TaskList {
         validateIndex(index); // throws an exception
 
         return taskList.remove(index - 1);
-
     }
 
     /**
@@ -74,6 +74,7 @@ public class TaskList {
      * @throws AuroraException if the index is out of bounds.
      */
     public void validateIndex(int index) throws AuroraException {
+
         if (taskList.isEmpty()) {
             throw new AuroraException("Task List is empty. Unable to run command.");
         } else if (index < 1 || index > taskList.size()) {
@@ -125,6 +126,7 @@ public class TaskList {
      */
     public TaskList findMatchingKeyword(String keyword) {
         TaskList newTaskListObj = new TaskList();
+
         for (Task task : taskList) {
             if (task.hasKeyword(keyword)) {
                 newTaskListObj.addToList(task);
@@ -141,6 +143,7 @@ public class TaskList {
      */
     public List<String> toFileFormat() {
         List<String> lines = new ArrayList<>();
+
         for (Task task : taskList) {
             lines.add(task.toFileFormat());
         }
@@ -156,10 +159,12 @@ public class TaskList {
     @Override
     public String toString() {
         StringBuilder listString = new StringBuilder();
+
         for (int i = 1; i <= taskList.size(); i++) {
             listString.append(i).append(". ").append(taskList.get(i - 1).toString()).append("\n");
         }
         listString.delete(listString.length() - 1, listString.length());
+
         return listString.toString();
     }
 

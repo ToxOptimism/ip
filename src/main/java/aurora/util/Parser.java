@@ -95,6 +95,9 @@ public class Parser {
      * @return true if the string can be parsed into an integer.
      */
     public boolean canParseInt(String input) {
+
+        assert(input != null) : "input is null.";
+
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -112,10 +115,9 @@ public class Parser {
      */
     public LocalDateTime parseDateTime(String input) {
 
+        assert(input != null) : "input is null.";
+
         try {
-            if (input == null) {
-                return null;
-            }
             return LocalDateTime.parse(input, inputFormat);
         } catch (DateTimeParseException e) {
             return null;
@@ -130,6 +132,9 @@ public class Parser {
      * @throws AuroraException if the user input is invalid.
      */
     public Command parseCommand(String input) throws AuroraException {
+
+        assert(input != null) : "input is null.";
+
         String[] argsList = input.split(" ", 2);
         Command command;
         switch (argsList[0]) {

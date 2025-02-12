@@ -22,6 +22,11 @@ public abstract class AddCommand extends Command {
      * @throws AuroraException if appending to storage fails.
      */
     public void addToList(Task task, TaskList taskList, Storage storage) throws AuroraException {
+
+        assert(task != null) : "The task is null.";
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         taskList.addToList(task);
 
         String message = String.format(TASK_ADDED_MSG, task, taskList.getSize());

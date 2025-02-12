@@ -31,6 +31,9 @@ public class AddToDoCommand extends AddCommand {
     @Override
     public void execute(TaskList taskList, Storage storage) throws AuroraException {
 
+        assert(taskList != null) : "The taskList is null.";
+        assert(storage != null) : "Storage is null.";
+
         super.execute(taskList, storage);
 
         ToDo toDo = new ToDo(description);
@@ -51,6 +54,8 @@ public class AddToDoCommand extends AddCommand {
          * However, the code is designed with the fact that the parsing of arguments is meant to be
          * coupled with the command it is parsing for, for ease of extending the code.
          */
+
+        assert(argsList != null) : "The argsList is null.";
 
         // If no arguments provided
         if (argsList.length < 2) {
