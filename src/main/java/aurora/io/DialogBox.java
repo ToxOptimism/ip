@@ -54,7 +54,6 @@ public class DialogBox extends HBox {
         setAlignment(Pos.TOP_LEFT);
     }
 
-
     /**
      * Creates a user dialog box with the given text and image.
      *

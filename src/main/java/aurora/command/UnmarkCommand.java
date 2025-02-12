@@ -52,11 +52,17 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+        /*
+         * The code may seem to be duplicated as a number of commands may share similar parsing.
+         * However, the code is designed with the fact that the parsing of arguments is meant to be
+         * coupled with the command it is parsing for, for ease of extending the code.
+         */
+
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException(MISSING_INDEX + "\n" + USAGE);
 
-            // Argument provided is not an integer
+        // Argument provided is not an integer
         } else if (!Parser.of().canParseInt(argsList[1])) {
             throw new AuroraException(INVALID_INDEX_ARG + "\n" + USAGE);
         }

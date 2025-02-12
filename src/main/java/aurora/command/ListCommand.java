@@ -26,11 +26,14 @@ public class ListCommand extends Command {
 
         super.execute(taskList, storage);
 
-        if (taskList.getSize() != 0) {
-            Ui.getSingleton().printMsg(taskList.toString());
-        } else {
-            Ui.getSingleton().printMsg(EMPTY_LIST);
+        Ui ui = Ui.getSingleton();
+
+        if (taskList.getSize() == 0) {
+            ui.printMsg(EMPTY_LIST);
+            return;
         }
+
+        ui.printMsg(taskList.toString());
     }
 
 

@@ -78,10 +78,11 @@ public class Storage {
         List<String> lines;
         try {
             lines = Files.readAllLines(taskListFile);
-            return lines;
         } catch (IOException e) {
             throw new AuroraException(FILE_READ_FAIL);
         }
+
+        return lines;
     }
 
     /**

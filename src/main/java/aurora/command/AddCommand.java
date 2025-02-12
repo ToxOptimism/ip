@@ -23,8 +23,10 @@ public abstract class AddCommand extends Command {
      */
     public void addToList(Task task, TaskList taskList, Storage storage) throws AuroraException {
         taskList.addToList(task);
+
         String message = String.format(TASK_ADDED_MSG, task, taskList.getSize());
         Ui.getSingleton().printMsg(message);
+
         appendTaskListFile(task, storage);
     }
 

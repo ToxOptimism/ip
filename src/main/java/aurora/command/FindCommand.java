@@ -36,11 +36,13 @@ public class FindCommand extends Command {
 
         Ui ui = Ui.getSingleton();
         TaskList filteredList = taskList.findMatchingKeyword(keyword);
-        if (filteredList.getSize() != 0) {
-            ui.printMsg(filteredList.toString());
-        } else {
+
+        if (filteredList.getSize() == 0) {
             ui.printMsg(EMPTY_LIST);
+            return;
         }
+
+        ui.printMsg(filteredList.toString());
     }
 
     /**
@@ -51,6 +53,12 @@ public class FindCommand extends Command {
      */
     @Override
     public void parseArgs(String[] argsList) throws AuroraException {
+        /*
+         * The code may seem to be duplicated as a number of commands may share similar parsing.
+         * However, the code is designed with the fact that the parsing of arguments is meant to be
+         * coupled with the command it is parsing for, for ease of extending the code.
+         */
+
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException(MISSING_KEYWORD_ARG + "\n" + USAGE);

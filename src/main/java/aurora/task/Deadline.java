@@ -33,8 +33,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toFileFormat() {
-        return TASK_KEYWORD + " | " + super.toFileFormat()
-                + " | " + byDate.format(fileFormat);
+        return TASK_KEYWORD + " | " + super.toFileFormat() + " | " + byDate.format(fileFormat);
     }
 
     /**

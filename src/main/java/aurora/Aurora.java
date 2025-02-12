@@ -58,10 +58,11 @@ public class Aurora extends Application {
             fxmlLoader.<Ui>getController().setAurora(this); // inject the Duke instance
             Ui.setUiSingleton(fxmlLoader.getController()); // inject the Ui instance
             stage.show();
-            ui = Ui.getSingleton();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ui = Ui.getSingleton();
 
         try {
             storage.generateTaskListFile();

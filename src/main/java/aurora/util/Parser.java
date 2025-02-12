@@ -97,10 +97,11 @@ public class Parser {
     public boolean canParseInt(String input) {
         try {
             Integer.parseInt(input);
-            return true;
         } catch (NumberFormatException e) {
             return false;
         }
+
+        return true;
     }
 
     /**
