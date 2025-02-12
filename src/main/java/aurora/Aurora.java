@@ -39,6 +39,8 @@ public class Aurora extends Application {
         List<String> lines = Storage.of().loadTaskListData();
         List<Task> tasks = Parser.of().parseTaskListFile(lines);
         for (Task task : tasks) {
+
+            assert(task != null) : "task is null.";
             taskList.addToList(task);
         }
     }
