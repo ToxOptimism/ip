@@ -122,7 +122,8 @@ public class AddEventCommand extends AddCommand {
             throw new AuroraException(WRONG_ARG_IDENTIFIER_ORDER + "\n" + USAGE);
 
         // If there is no details after /from
-        } else if (fromDateStartIndex + FROM_ARG_IDENTIFIER.length() == toDateStartIndex) {
+        } else if (fromDateStartIndex + FROM_ARG_IDENTIFIER.length()
+                == argument.substring(0, toDateStartIndex).trim().length()) {
             throw new AuroraException(MISSING_FROM_ARG + "\n" + USAGE);
 
         // If there is no details after /to

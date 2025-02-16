@@ -122,7 +122,8 @@ public class AddDoWithinPeriodCommand extends AddCommand {
             throw new AuroraException(WRONG_ARG_IDENTIFIER_ORDER + "\n" + USAGE);
 
         // If there is no details after /from
-        } else if (startPeriodDateStartIndex + START_PERIOD_ARG_IDENTIFIER.length() == endPeriodDateStartIndex) {
+        } else if (startPeriodDateStartIndex + START_PERIOD_ARG_IDENTIFIER.length()
+                == argument.substring(0, endPeriodDateStartIndex).trim().length()) {
             throw new AuroraException(MISSING_START_PERIOD_ARG + "\n" + USAGE);
 
         // If there is no details after /to
