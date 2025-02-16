@@ -39,5 +39,4 @@ public class ListCommand extends Command {
         ui.printMsg(taskList.toString());
     }
 
-
 }

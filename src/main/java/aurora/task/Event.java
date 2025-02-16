@@ -17,11 +17,11 @@ public class Event extends Task {
     private final DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     /**
-     * Constructor for Event.
+     * Constructs a new Event task.
      *
-     * @param description the description of the Deadline task.
-     * @param startDate the start date of the Deadline task.
-     * @param endDate the end date of the Deadline task.
+     * @param description the description of the Event task.
+     * @param startDate the start date of the Event task.
+     * @param endDate the end date of the Event task.
      */
     public Event(String description, LocalDateTime startDate, LocalDateTime endDate) {
         super(description);
@@ -34,7 +34,7 @@ public class Event extends Task {
     }
 
     /**
-     * Get event in file format string representation.
+     * Gets event in file format string representation.
      *
      * @return the string representation of the Event task in file format.
      */
@@ -45,7 +45,7 @@ public class Event extends Task {
     }
 
     /**
-     * Get event in display string representation.
+     * Gets event in display string representation.
      *
      * @return the string representation of the Event task in display format.
      */

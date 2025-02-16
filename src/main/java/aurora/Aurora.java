@@ -46,7 +46,7 @@ public class Aurora extends Application {
     }
 
     /**
-     * The main entry point of the Aurora application.
+     * Acts as the main entry point of the Aurora application.
      *
      * @param stage The primary stage for this application, onto which the application scene can be set
      */
@@ -57,6 +57,7 @@ public class Aurora extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
+            stage.setTitle("Aurora");
             fxmlLoader.<Ui>getController().setAurora(this); // inject the Duke instance
             Ui.setUiSingleton(fxmlLoader.getController()); // inject the Ui instance
             stage.show();

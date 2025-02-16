@@ -8,7 +8,7 @@ public class ToDo extends Task {
     public static final String TASK_KEYWORD = "T";
 
     /**
-     * Constructor for ToDo.
+     * Constructs a new ToDo Task.
      *
      * @param description the description of the ToDo task.
      */
@@ -17,7 +17,7 @@ public class ToDo extends Task {
     }
 
     /**
-     * Get todo in file format string representation.
+     * Gets todo in file format string representation.
      *
      * @return the string representation of the ToDo task in file format.
      */
@@ -27,7 +27,7 @@ public class ToDo extends Task {
     }
 
     /**
-     * Get todo in display string representation.
+     * Gets todo in display string representation.
      *
      * @return the string representation of the ToDo task in display format.
      */

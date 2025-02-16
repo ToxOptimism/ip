@@ -77,6 +77,9 @@ public class AddEventCommand extends AddCommand {
 
         assert(argsList != null) : "The argsList is null.";
 
+        /*
+         * Check if argument input is not empty
+         */
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
@@ -89,6 +92,9 @@ public class AddEventCommand extends AddCommand {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Check if appropriate argument identifiers are present
+         */
         // Note: If /by and /from does not exist, the description is the entire argument string.
         int fromDateStartIndex = findArgumentStartIndex(FROM_ARG_IDENTIFIER, argument);
         int toDateStartIndex = findArgumentStartIndex(TO_ARG_IDENTIFIER, argument);
@@ -124,6 +130,9 @@ public class AddEventCommand extends AddCommand {
             throw new AuroraException(MISSING_TO_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Attempt to parse dates
+         */
         Parser parser = Parser.of();
 
         String fromDateString = argument.substring(fromDateStartIndex
@@ -140,6 +149,9 @@ public class AddEventCommand extends AddCommand {
             throw new AuroraException(INVALID_TO_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Parse arguments into commands
+         */
         description = argument.substring(0, fromDateStartIndex).trim();
         fromDate = parsedFromDate;
         toDate = parsedToDate;

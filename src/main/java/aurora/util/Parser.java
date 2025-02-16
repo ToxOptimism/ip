@@ -39,12 +39,12 @@ public class Parser {
     private static final Parser SINGLETON = new Parser();
 
     /**
-     * Constructor for Parser
+     * Constructs a new Parser.
      */
     protected Parser() {}
 
     /**
-     * Factory method of parser.
+     * Gets the singleton instance of the parser.
      *
      * @return SINGLETON the singleton instance.
      */

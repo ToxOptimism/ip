@@ -14,7 +14,7 @@ public class TaskList {
     private final ArrayList<Task> taskList;
 
     /**
-     * Constructor for TaskList.
+     * Constructs a new TaskList.
      */
     public TaskList() {
         taskList = new ArrayList<>();
@@ -137,7 +137,7 @@ public class TaskList {
     }
 
     /**
-     * Get taskList in file format string representation.
+     * Gets taskList in file format string representation.
      *
      * @return the list of string representation of tasks in file format.
      */
@@ -152,7 +152,7 @@ public class TaskList {
     }
 
     /**
-     * Get taskList in display string representation.
+     * Gets taskList in display string representation.
      *
      * @return the list of string representation of tasks in display format.
      */

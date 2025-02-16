@@ -18,11 +18,11 @@ public class DoWithinPeriod extends Task {
     private final DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     /**
-     * Constructor for Event.
+     * Constructs a DoWithinPeriod task.
      *
-     * @param description the description of the Deadline task.
-     * @param startDate the start date of the Deadline task.
-     * @param endDate the end date of the Deadline task.
+     * @param description the description of the DoWithinPeriod task.
+     * @param startDate the start date of the DoWithinPeriod task.
+     * @param endDate the end date of the DoWithinPeriod task.
      */
     public DoWithinPeriod(String description, LocalDateTime startDate, LocalDateTime endDate) {
         super(description);
@@ -35,7 +35,7 @@ public class DoWithinPeriod extends Task {
     }
 
     /**
-     * Get event in file format string representation.
+     * Gets event in file format string representation.
      *
      * @return the string representation of the Event task in file format.
      */
@@ -46,7 +46,7 @@ public class DoWithinPeriod extends Task {
     }
 
     /**
-     * Get event in display string representation.
+     * Gets event in display string representation.
      *
      * @return the string representation of the Event task in display format.
      */

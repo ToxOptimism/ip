@@ -77,6 +77,9 @@ public class AddDoWithinPeriodCommand extends AddCommand {
 
         assert(argsList != null) : "The argsList is null.";
 
+        /*
+         * Check if argument input is not empty
+         */
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
@@ -89,7 +92,10 @@ public class AddDoWithinPeriodCommand extends AddCommand {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
-        // Note: If /by and /from does not exist, the description is the entire argument string.
+        /*
+         * Check if appropriate argument identifiers are present
+         */
+        // Note: If /start and /end does not exist, the description is the entire argument string.
         int startPeriodDateStartIndex = findArgumentStartIndex(START_PERIOD_ARG_IDENTIFIER, argument);
         int endPeriodDateStartIndex = findArgumentStartIndex(END_PERIOD_ARG_IDENTIFIER, argument);
         boolean hasTextBeforeFromDate = startPeriodDateStartIndex == -1
@@ -124,6 +130,9 @@ public class AddDoWithinPeriodCommand extends AddCommand {
             throw new AuroraException(MISSING_END_PERIOD_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Attempt to parse dates
+         */
         Parser parser = Parser.of();
 
         String startPeriodDateString = argument.substring(startPeriodDateStartIndex
@@ -140,6 +149,9 @@ public class AddDoWithinPeriodCommand extends AddCommand {
             throw new AuroraException(INVALID_END_PERIOD_DATE_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Parse arguments into commands
+         */
         description = argument.substring(0, startPeriodDateStartIndex).trim();
         startPeriodDate = parsedStartPeriodDate;
         endPeriodDate = parsedEndPeriodDate;

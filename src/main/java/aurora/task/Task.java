@@ -10,7 +10,7 @@ public class Task {
     protected boolean isDone;
 
     /**
-     * Constructor for Task.
+     * Constructs a new Task.
      *
      * @param description the description of the Task.
      */
@@ -23,7 +23,7 @@ public class Task {
     }
 
     /**
-     * Get status icon of the task.
+     * Gets status icon of the task.
      *
      * @return the status icon of whether the task is done.
      */
@@ -32,7 +32,7 @@ public class Task {
     }
 
     /**
-     * Get status icon of the task in file format.
+     * Gets status icon of the task in file format.
      *
      * @return the status icon of whether the task is done in file format.
      */
@@ -41,14 +41,14 @@ public class Task {
     }
 
     /**
-     * Mark the task as done.
+     * Marks the task as done.
      */
     public void markAsDone() {
         isDone = true;
     }
 
     /**
-     * Mark the task as not done.
+     * Marks the task as not done.
      */
     public void unmarkAsDone() {
         isDone = false;
@@ -66,7 +66,7 @@ public class Task {
     }
 
     /**
-     * Get task in file format string representation.
+     * Gets task in file format string representation.
      *
      * @return the string representation of the Task in file format.
      */
@@ -75,7 +75,7 @@ public class Task {
     }
 
     /**
-     * Get task in display string representation.
+     * Gets task in display string representation.
      *
      * @return the string representation of the Task in display format.
      */

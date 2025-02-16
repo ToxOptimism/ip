@@ -16,7 +16,7 @@ public class Deadline extends Task {
     private final DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
     /**
-     * Constructor for Deadline.
+     * Constructs a new Deadline Task.
      *
      * @param description the description of the Deadline task.
      * @param byDate the deadline of the Deadline task.
@@ -30,7 +30,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Get deadline in file format string representation.
+     * Gets deadline in file format string representation.
      *
      * @return the string representation of the Deadline task in file format.
      */
@@ -40,7 +40,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Get deadline in display string representation.
+     * Gets deadline in display string representation.
      *
      * @return the string representation of the Deadline task in display format.
      */

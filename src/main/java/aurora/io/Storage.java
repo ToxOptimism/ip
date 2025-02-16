@@ -29,12 +29,12 @@ public class Storage {
     private static final Storage SINGLETON = new Storage();
 
     /**
-     * Constructor for Storage.
+     * Constructs a new Parser.
      */
     protected Storage() {}
 
     /**
-     * Factory method of storage.
+     * Gets the singleton instance of the parser.
      *
      * @return SINGLETON the singleton instance.
      */

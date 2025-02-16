@@ -67,6 +67,9 @@ public class AddDeadlineCommand extends AddCommand {
 
         assert(argsList != null) : "The argsList is null.";
 
+        /*
+         * Check if argument input is not empty
+         */
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
@@ -79,6 +82,9 @@ public class AddDeadlineCommand extends AddCommand {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Check if appropriate argument identifiers are present
+         */
         int byDateStartIndex = findArgumentStartIndex(BY_ARG_IDENTIFIER, argument);
 
         // Note: If /by does not exist, the description is the entire argument string.
@@ -100,6 +106,9 @@ public class AddDeadlineCommand extends AddCommand {
             throw new AuroraException(MISSING_BY_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Attempt to parse dates
+         */
         String byDateString = argument.substring(byDateStartIndex + BY_ARG_IDENTIFIER.length()).trim();
         LocalDateTime parsedByDate = Parser.of().parseDateTime(byDateString);
 
@@ -107,6 +116,9 @@ public class AddDeadlineCommand extends AddCommand {
             throw new AuroraException(INVALID_BY_DATE_ARG + "\n" + USAGE);
         }
 
+        /*
+         * Parse arguments into commands
+         */
         description = argument.substring(0, byDateStartIndex).trim();
         byDate = parsedByDate;
 
