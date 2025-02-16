@@ -68,12 +68,55 @@ public abstract class Command {
      * @param storage the storage to write to.
      * @throws AuroraException if unable to overwrite file.
      */
-    public static void overwriteTaskListFile(TaskList taskList, Storage storage) throws AuroraException {
+    public void overwriteTaskListFile(TaskList taskList, Storage storage) throws AuroraException {
 
         assert(taskList != null) : "The taskList is null.";
         assert(storage != null) : "Storage is null.";
 
         List<String> lines = taskList.toFileFormat();
         storage.overwriteTaskListFile(lines);
+    }
+
+    /**
+     * Finds the start index of the given argument.
+     *
+     * @param argIdentifier the "/param" to search for
+     * @param argument the argument string to search through
+     * @return the start index of the argument
+     */
+    protected int findArgumentStartIndex(String argIdentifier, String argument) {
+        int argStartIndex = -1;
+
+        // Account for different combinations of /arg usage
+        String argIdentifierWithSpace = argIdentifier + " ";
+        String argIdentifierWithNewLine = argIdentifier + "\n";
+
+        if (argument.contains(argIdentifierWithSpace)) {
+            argStartIndex = argument.indexOf(argIdentifierWithSpace);
+
+        } else if (argument.contains(argIdentifierWithNewLine)) {
+            argStartIndex = argument.indexOf(argIdentifierWithNewLine);
+
+        } else if (argument.endsWith(argIdentifier)) {
+            argStartIndex = argument.length() - argIdentifier.length();
+        }
+
+        return argStartIndex;
+    }
+
+    /**
+     * Checks if there is any text before the argument.
+     *
+     * @param argStartIndex the start index of the argument
+     * @param argument the argument string
+     * @return true if there is text before the argument, false otherwise
+     */
+    protected boolean hasTextBeforeArgument(int argStartIndex, String argument) {
+
+        assert argStartIndex >= 0 : "Argument start index is less than 0.";
+        assert argument != null : "Arguments is null.";
+
+        String substringBeforeArg = argument.substring(0, argStartIndex);
+        return !substringBeforeArg.trim().isEmpty();
     }
 }

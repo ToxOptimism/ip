@@ -82,86 +82,67 @@ public class AddEventCommand extends AddCommand {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
-        String info = argsList[1];
+        String argument = argsList[1];
 
-        int fromDateStart = -1;
-        String beforeFrom = info;
-
-        // Account for different combinations of /from usage
-        String fromArgumentIdentifierWithSpace = FROM_ARG_IDENTIFIER + " ";
-        String fromArgumentIdentifierWithNewLine = FROM_ARG_IDENTIFIER + "\n";
-
-        if (info.contains(fromArgumentIdentifierWithSpace)) {
-            fromDateStart = info.indexOf(fromArgumentIdentifierWithSpace);
-            beforeFrom = info.split(fromArgumentIdentifierWithSpace)[0].trim();
-
-        } else if (info.contains(fromArgumentIdentifierWithNewLine)) {
-            fromDateStart = info.indexOf(fromArgumentIdentifierWithNewLine);
-            beforeFrom = info.split(fromArgumentIdentifierWithNewLine)[0].trim();
-
-        } else if (info.endsWith(FROM_ARG_IDENTIFIER)) {
-            fromDateStart = info.length() - FROM_ARG_IDENTIFIER.length();
-            beforeFrom = info.substring(0, info.length() - FROM_ARG_IDENTIFIER.length()).trim();
+        // If argument is trailing white space
+        if (argument.trim().isEmpty()) {
+            throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
-        int toDateStart = -1;
-        String beforeTo = info;
-
-        // Account for different combinations of /to usage
-        String toArgumentIdentifierWithSpace = TO_ARG_IDENTIFIER + " ";
-        String toArgumentIdentifierWithNewLine = TO_ARG_IDENTIFIER + "\n";
-
-        if (info.contains(toArgumentIdentifierWithSpace)) {
-            toDateStart = info.indexOf(toArgumentIdentifierWithSpace);
-            beforeTo = info.split(toArgumentIdentifierWithSpace)[0].trim();
-        } else if (info.contains(toArgumentIdentifierWithNewLine)) {
-            toDateStart = info.indexOf(toArgumentIdentifierWithNewLine);
-            beforeTo = info.split(toArgumentIdentifierWithNewLine)[0].trim();
-        } else if (info.endsWith(TO_ARG_IDENTIFIER)) {
-            toDateStart = info.length() - TO_ARG_IDENTIFIER.length();
-            beforeTo = info.substring(0, toDateStart).trim();
-        }
+        // Note: If /by and /from does not exist, the description is the entire argument string.
+        int fromDateStartIndex = findArgumentStartIndex(FROM_ARG_IDENTIFIER, argument);
+        int toDateStartIndex = findArgumentStartIndex(TO_ARG_IDENTIFIER, argument);
+        boolean hasTextBeforeFromDate = fromDateStartIndex == -1
+                || hasTextBeforeArgument(fromDateStartIndex, argument);
+        boolean hasTextBeforeToDate = toDateStartIndex == -1
+                || hasTextBeforeArgument(fromDateStartIndex, argument);
+        boolean hasNoDescription = !hasTextBeforeFromDate || !hasTextBeforeToDate;
 
         // If there is no description provided
-        if (info.trim().isEmpty() || beforeFrom.isEmpty() || beforeTo.isEmpty()) {
+        if (hasNoDescription) {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
         // If there is no /from
-        if (fromDateStart == -1) {
+        if (fromDateStartIndex == -1) {
             throw new AuroraException(MISSING_FROM_ARG_IDENTIFIER + "\n" + USAGE);
 
         // If there is no /to
-        } else if (toDateStart == -1) {
+        } else if (toDateStartIndex == -1) {
             throw new AuroraException(MISSING_TO_ARG_IDENTIFIER + "\n" + USAGE);
 
         // If format is in wrong order
-        } else if (fromDateStart > toDateStart) {
+        } else if (fromDateStartIndex > toDateStartIndex) {
             throw new AuroraException(WRONG_ARG_IDENTIFIER_ORDER + "\n" + USAGE);
 
         // If there is no details after /from
-        } else if (fromDateStart + FROM_ARG_IDENTIFIER.length() == beforeTo.length()) {
+        } else if (fromDateStartIndex + FROM_ARG_IDENTIFIER.length() == toDateStartIndex) {
             throw new AuroraException(MISSING_FROM_ARG + "\n" + USAGE);
 
         // If there is no details after /to
-        } else if (toDateStart + TO_ARG_IDENTIFIER.length() == info.length()) {
+        } else if (toDateStartIndex + TO_ARG_IDENTIFIER.length() == argument.length()) {
             throw new AuroraException(MISSING_TO_ARG + "\n" + USAGE);
         }
 
-        description = info.substring(0, fromDateStart).trim();
-        String fromDateString = info.substring(fromDateStart + FROM_ARG_IDENTIFIER.length(), toDateStart).trim();
-        String toDateString = info.substring(toDateStart + TO_ARG_IDENTIFIER.length()).trim();
         Parser parser = Parser.of();
-        fromDate = parser.parseDateTime(fromDateString);
-        toDate = parser.parseDateTime(toDateString);
 
-        if (fromDate == null) {
+        String fromDateString = argument.substring(fromDateStartIndex
+                + FROM_ARG_IDENTIFIER.length(), toDateStartIndex).trim();
+        LocalDateTime parsedFromDate = parser.parseDateTime(fromDateString);
+        if (parsedFromDate == null) {
             throw new AuroraException(INVALID_FROM_DATE_ARG + "\n" + USAGE);
         }
 
-        if (toDate == null) {
+        String toDateString = argument.substring(toDateStartIndex
+                + TO_ARG_IDENTIFIER.length()).trim();
+        LocalDateTime parsedToDate = parser.parseDateTime(toDateString);
+        if (parsedToDate == null) {
             throw new AuroraException(INVALID_TO_ARG + "\n" + USAGE);
         }
+
+        description = argument.substring(0, fromDateStartIndex).trim();
+        fromDate = parsedFromDate;
+        toDate = parsedToDate;
 
         super.parseArgs(argsList);
     }

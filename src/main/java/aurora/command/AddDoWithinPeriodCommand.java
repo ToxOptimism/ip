@@ -82,88 +82,67 @@ public class AddDoWithinPeriodCommand extends AddCommand {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
-        String info = argsList[1];
+        String argument = argsList[1];
 
-        int startPeriodDateStart = -1;
-        String beforeStartPeriod = info;
-
-        // Account for different combinations of /from usage
-        String startPeriodArgumentIdentifierWithSpace = START_PERIOD_ARG_IDENTIFIER + " ";
-        String startPeriodArgumentIdentifierWithNewLine = START_PERIOD_ARG_IDENTIFIER + "\n";
-
-        if (info.contains(startPeriodArgumentIdentifierWithSpace)) {
-            startPeriodDateStart = info.indexOf(startPeriodArgumentIdentifierWithSpace);
-            beforeStartPeriod = info.split(startPeriodArgumentIdentifierWithSpace)[0].trim();
-
-        } else if (info.contains(startPeriodArgumentIdentifierWithNewLine)) {
-            startPeriodDateStart = info.indexOf(startPeriodArgumentIdentifierWithNewLine);
-            beforeStartPeriod = info.split(startPeriodArgumentIdentifierWithNewLine)[0].trim();
-
-        } else if (info.endsWith(START_PERIOD_ARG_IDENTIFIER)) {
-            startPeriodDateStart = info.length() - START_PERIOD_ARG_IDENTIFIER.length();
-            beforeStartPeriod = info.substring(0, info.length() - START_PERIOD_ARG_IDENTIFIER.length()).trim();
-        }
-
-        int endPeriodDateStart = -1;
-        String beforeEndPeriod = info;
-
-        // Account for different combinations of /to usage
-        String endPeriodArgumentIdentifierWithSpace = END_PERIOD_ARG_IDENTIFIER + " ";
-        String endPeriodArgumentIdentifierWithNewLine = END_PERIOD_ARG_IDENTIFIER + "\n";
-
-        if (info.contains(endPeriodArgumentIdentifierWithSpace)) {
-            endPeriodDateStart = info.indexOf(endPeriodArgumentIdentifierWithSpace);
-            beforeEndPeriod = info.split(endPeriodArgumentIdentifierWithSpace)[0].trim();
-        } else if (info.contains(endPeriodArgumentIdentifierWithNewLine)) {
-            endPeriodDateStart = info.indexOf(endPeriodArgumentIdentifierWithNewLine);
-            beforeEndPeriod = info.split(endPeriodArgumentIdentifierWithNewLine)[0].trim();
-        } else if (info.endsWith(END_PERIOD_ARG_IDENTIFIER)) {
-            endPeriodDateStart = info.length() - END_PERIOD_ARG_IDENTIFIER.length();
-            beforeEndPeriod = info.substring(0, endPeriodDateStart).trim();
-        }
-
-        // If there is no description provided
-        if (info.trim().isEmpty() || beforeStartPeriod.isEmpty() || beforeEndPeriod.isEmpty()) {
+        // If argument is trailing white space
+        if (argument.trim().isEmpty()) {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
-        // If there is no /from
-        if (startPeriodDateStart == -1) {
+        // Note: If /by and /from does not exist, the description is the entire argument string.
+        int startPeriodDateStartIndex = findArgumentStartIndex(START_PERIOD_ARG_IDENTIFIER, argument);
+        int endPeriodDateStartIndex = findArgumentStartIndex(END_PERIOD_ARG_IDENTIFIER, argument);
+        boolean hasTextBeforeFromDate = startPeriodDateStartIndex == -1
+                || hasTextBeforeArgument(startPeriodDateStartIndex, argument);
+        boolean hasTextBeforeToDate = endPeriodDateStartIndex == -1
+                || hasTextBeforeArgument(startPeriodDateStartIndex, argument);
+        boolean hasNoDescription = !hasTextBeforeFromDate || !hasTextBeforeToDate;
+
+        // If there is no description provided
+        if (hasNoDescription) {
+            throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
+        }
+
+        // If there is no /start
+        if (startPeriodDateStartIndex == -1) {
             throw new AuroraException(MISSING_START_PERIOD_ARG_IDENTIFIER + "\n" + USAGE);
 
-        // If there is no /to
-        } else if (endPeriodDateStart == -1) {
+        // If there is no /end
+        } else if (endPeriodDateStartIndex == -1) {
             throw new AuroraException(MISSING_END_PERIOD_ARG_IDENTIFIER + "\n" + USAGE);
 
         // If format is in wrong order
-        } else if (startPeriodDateStart > endPeriodDateStart) {
+        } else if (startPeriodDateStartIndex > endPeriodDateStartIndex) {
             throw new AuroraException(WRONG_ARG_IDENTIFIER_ORDER + "\n" + USAGE);
 
         // If there is no details after /from
-        } else if (startPeriodDateStart + START_PERIOD_ARG_IDENTIFIER.length() == beforeEndPeriod.length()) {
+        } else if (startPeriodDateStartIndex + START_PERIOD_ARG_IDENTIFIER.length() == endPeriodDateStartIndex) {
             throw new AuroraException(MISSING_START_PERIOD_ARG + "\n" + USAGE);
 
         // If there is no details after /to
-        } else if (endPeriodDateStart + END_PERIOD_ARG_IDENTIFIER.length() == info.length()) {
+        } else if (endPeriodDateStartIndex + END_PERIOD_ARG_IDENTIFIER.length() == argument.length()) {
             throw new AuroraException(MISSING_END_PERIOD_ARG + "\n" + USAGE);
         }
 
-        description = info.substring(0, startPeriodDateStart).trim();
-        String startPeriodDateString = info.substring(startPeriodDateStart + START_PERIOD_ARG_IDENTIFIER.length(),
-                endPeriodDateStart).trim();
-        String endPeriodDateString = info.substring(endPeriodDateStart + END_PERIOD_ARG_IDENTIFIER.length())
-                .trim();
         Parser parser = Parser.of();
-        startPeriodDate = parser.parseDateTime(startPeriodDateString);
-        endPeriodDate = parser.parseDateTime(endPeriodDateString);
 
-        if (startPeriodDate == null) {
+        String startPeriodDateString = argument.substring(startPeriodDateStartIndex
+                + END_PERIOD_ARG_IDENTIFIER.length(), endPeriodDateStartIndex).trim();
+        LocalDateTime parsedStartPeriodDate = parser.parseDateTime(startPeriodDateString);
+        if (parsedStartPeriodDate == null) {
             throw new AuroraException(INVALID_START_PERIOD_DATE_ARG + "\n" + USAGE);
         }
 
-        if (endPeriodDate == null) {
+        String endPeriodDateString = argument.substring(endPeriodDateStartIndex
+                + START_PERIOD_ARG_IDENTIFIER.length()).trim();
+        LocalDateTime parsedEndPeriodDate = parser.parseDateTime(endPeriodDateString);
+        if (parsedEndPeriodDate == null) {
             throw new AuroraException(INVALID_END_PERIOD_DATE_ARG + "\n" + USAGE);
         }
+
+        description = argument.substring(0, startPeriodDateStartIndex).trim();
+        startPeriodDate = parsedStartPeriodDate;
+        endPeriodDate = parsedEndPeriodDate;
 
         super.parseArgs(argsList);
     }

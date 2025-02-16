@@ -28,7 +28,6 @@ public class AddDeadlineCommand extends AddCommand {
     private static final String INVALID_BY_DATE_ARG =
             "Invalid format: \"By\" must be a valid date format of dd/mm/yyyy hhmm.";
 
-
     // Deadline specific fields
     private LocalDateTime byDate;
     private String description;
@@ -66,53 +65,50 @@ public class AddDeadlineCommand extends AddCommand {
          * coupled with the command it is parsing for, for ease of extending the code.
          */
 
+        assert(argsList != null) : "The argsList is null.";
+
         // If no arguments provided
         if (argsList.length < 2) {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
-        String info = argsList[1];
+        String argument = argsList[1];
 
-        int byDateStart = -1;
-        String beforeBy = info;
-
-        // Account for different combinations of /by usage
-        String byArgumentIdentifierWithSpace = BY_ARG_IDENTIFIER + " ";
-        String byArgumentIdentifierWithNewLine = BY_ARG_IDENTIFIER + "\n";
-
-        if (info.contains(byArgumentIdentifierWithSpace)) {
-            byDateStart = info.indexOf(byArgumentIdentifierWithSpace);
-            beforeBy = info.split(byArgumentIdentifierWithSpace)[0].trim();
-            description = beforeBy;
-        } else if (info.contains(byArgumentIdentifierWithNewLine)) {
-            byDateStart = info.indexOf(byArgumentIdentifierWithNewLine);
-            beforeBy = info.split(byArgumentIdentifierWithNewLine)[0].trim();
-        } else if (info.endsWith(BY_ARG_IDENTIFIER)) {
-            byDateStart = info.length() - BY_ARG_IDENTIFIER.length();
-            beforeBy = info.substring(0, byDateStart).trim();
+        // If argument is trailing white space
+        if (argument.trim().isEmpty()) {
+            throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
+        int byDateStartIndex = findArgumentStartIndex(BY_ARG_IDENTIFIER, argument);
+
+        // Note: If /by does not exist, the description is the entire argument string.
+        boolean hasTextBeforeByDate = byDateStartIndex == -1
+                || hasTextBeforeArgument(byDateStartIndex, argument);
+
         // If there is no description provided
-        if (info.trim().isEmpty() || beforeBy.isEmpty()) {
+        if (!hasTextBeforeByDate) {
             throw new AuroraException(MISSING_DESCRIPTION_ARG + "\n" + USAGE);
         }
 
         // If there is no /by
-        if (byDateStart == -1) {
+        if (byDateStartIndex == -1) {
             throw new AuroraException(MISSING_BY_ARG_IDENTIFIER + "\n" + USAGE);
+        }
 
-        // If there is no details after /to
-        } else if (byDateStart + BY_ARG_IDENTIFIER.length() == info.length()) {
+        // If there is no details after /by
+        if (byDateStartIndex + BY_ARG_IDENTIFIER.length() == argument.length()) {
             throw new AuroraException(MISSING_BY_ARG + "\n" + USAGE);
         }
 
-        String byDateString = info.substring(byDateStart + BY_ARG_IDENTIFIER.length()).trim();
-        Parser parser = Parser.of();
-        byDate = parser.parseDateTime(byDateString);
+        String byDateString = argument.substring(byDateStartIndex + BY_ARG_IDENTIFIER.length()).trim();
+        LocalDateTime parsedByDate = Parser.of().parseDateTime(byDateString);
 
-        if (byDate == null) {
+        if (parsedByDate == null) {
             throw new AuroraException(INVALID_BY_DATE_ARG + "\n" + USAGE);
         }
+
+        description = argument.substring(0, byDateStartIndex).trim();
+        byDate = parsedByDate;
 
         super.parseArgs(argsList);
     }
