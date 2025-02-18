@@ -37,7 +37,7 @@ public class AddDoWithinPeriodCommand extends AddCommand {
     private static final String INVALID_END_PERIOD_DATE_ARG =
             "Invalid format: \"End\" must be a valid date format of dd/mm/yyyy hhmm.";
 
-    // Event specific fields
+    // DoWithinPeriod specific fields
     private LocalDateTime startPeriodDate;
     private LocalDateTime endPeriodDate;
     private String description;
@@ -101,7 +101,7 @@ public class AddDoWithinPeriodCommand extends AddCommand {
         boolean hasTextBeforeFromDate = startPeriodDateStartIndex == -1
                 || hasTextBeforeArgument(startPeriodDateStartIndex, argument);
         boolean hasTextBeforeToDate = endPeriodDateStartIndex == -1
-                || hasTextBeforeArgument(startPeriodDateStartIndex, argument);
+                || hasTextBeforeArgument(endPeriodDateStartIndex, argument);
         boolean hasNoDescription = !hasTextBeforeFromDate || !hasTextBeforeToDate;
 
         // If there is no description provided
@@ -137,14 +137,14 @@ public class AddDoWithinPeriodCommand extends AddCommand {
         Parser parser = Parser.of();
 
         String startPeriodDateString = argument.substring(startPeriodDateStartIndex
-                + END_PERIOD_ARG_IDENTIFIER.length(), endPeriodDateStartIndex).trim();
+                + START_PERIOD_ARG_IDENTIFIER.length(), endPeriodDateStartIndex).trim();
         LocalDateTime parsedStartPeriodDate = parser.parseDateTime(startPeriodDateString);
         if (parsedStartPeriodDate == null) {
             throw new AuroraException(INVALID_START_PERIOD_DATE_ARG + "\n" + USAGE);
         }
 
         String endPeriodDateString = argument.substring(endPeriodDateStartIndex
-                + START_PERIOD_ARG_IDENTIFIER.length()).trim();
+                + END_PERIOD_ARG_IDENTIFIER.length()).trim();
         LocalDateTime parsedEndPeriodDate = parser.parseDateTime(endPeriodDateString);
         if (parsedEndPeriodDate == null) {
             throw new AuroraException(INVALID_END_PERIOD_DATE_ARG + "\n" + USAGE);
