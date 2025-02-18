@@ -20,6 +20,16 @@ event /to 4/12/2019 0800 /from 2/12/2019 1800
 event project meeting 2 /fromtest/to 4/12/2019 0800
 event project meeting /from notADate /to 4/12/2019 0800
 event project meeting /from 2/12/2019 1800 /to notADate
+doWithinPeriod project meeting /start 2/12/2019 1800 /end 4/12/2019 0800
+doWithinPeriod project meeting /start  /end 2/12/2019 1800
+doWithinPeriod project meeting /start/end 2/12/2019 1800
+doWithinPeriod project meeting /start 2/12/2019 1800 /end
+doWithinPeriod /start 2/12/2019 1800 /end 4/12/2019 0800
+doWithinPeriod project meeting /end 4/12/2019 0800 /start 2/12/2019 1800
+doWithinPeriod /end 4/12/2019 0800 /start 2/12/2019 1800
+doWithinPeriod project meeting 2 /starttest/end 4/12/2019 0800
+doWithinPeriod project meeting /start notADate /end 4/12/2019 0800
+doWithinPeriod project meeting /start 2/12/2019 1800 /end notADate
 list
 testing unknown command
 list

@@ -35,9 +35,9 @@ public class DoWithinPeriod extends Task {
     }
 
     /**
-     * Gets event in file format string representation.
+     * Gets doWithinPeriod in file format string representation.
      *
-     * @return the string representation of the Event task in file format.
+     * @return the string representation of the doWithinPeriod task in file format.
      */
     @Override
     public String toFileFormat() {
@@ -46,9 +46,9 @@ public class DoWithinPeriod extends Task {
     }
 
     /**
-     * Gets event in display string representation.
+     * Gets doWithinPeriod in display string representation.
      *
-     * @return the string representation of the Event task in display format.
+     * @return the string representation of the doWithinPeriod task in display format.
      */
     @Override
     public String toString() {

@@ -140,7 +140,8 @@ public class Parser {
 
         assert(input != null) : "input is null.";
 
-        String[] argsList = input.split(" ", 2);
+        String trimmedInput = input.trim();
+        String[] argsList = trimmedInput.split(" ", 2);
         Command command;
         switch (argsList[0]) {
         case ByeCommand.CMD_KEYWORD:
@@ -174,7 +175,7 @@ public class Parser {
             command = new DeleteCommand();
             break;
         default:
-            String message = String.format(UNKNOWN_COMMAND, input);
+            String message = String.format(UNKNOWN_COMMAND, trimmedInput);
             throw new AuroraException(message);
         }
 
