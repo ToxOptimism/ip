@@ -101,7 +101,7 @@ public class AddEventCommand extends AddCommand {
         boolean hasTextBeforeFromDate = fromDateStartIndex == -1
                 || hasTextBeforeArgument(fromDateStartIndex, argument);
         boolean hasTextBeforeToDate = toDateStartIndex == -1
-                || hasTextBeforeArgument(fromDateStartIndex, argument);
+                || hasTextBeforeArgument(toDateStartIndex, argument);
         boolean hasNoDescription = !hasTextBeforeFromDate || !hasTextBeforeToDate;
 
         // If there is no description provided
